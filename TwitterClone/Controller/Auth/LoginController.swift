@@ -101,7 +101,17 @@ class LoginController: UIViewController {
     //MARK: - Selectors
     
     @objc func loginButtonPressed() {
-        print("Pressed")
+        guard let email = emailField.text else {return}
+        guard let password = passwordField.text else {return}
+        
+        Auth.auth().signIn(withEmail: email, password: password) { result, error in
+            if let error = error {
+                print("Error - \(error.localizedDescription)")
+            } else {
+                AuthService.shared.logUserIn(withEmail: email, withPassword: password)
+            }
+        }
+        
     }
     
     @objc func showSignUpPage() {

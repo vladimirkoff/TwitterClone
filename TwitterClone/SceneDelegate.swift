@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
        
         guard let scene = scene as? UIWindowScene else { return }  // we are setting MainTabController as initial view controller ai root 
         window = UIWindow(windowScene: scene)
-        window?.rootViewController =  UINavigationController(rootViewController: LoginController())  
+        window?.rootViewController =  MainTabController()
         window?.makeKeyAndVisible()
         
     }

@@ -21,7 +21,9 @@
 		8597C1A829AF735500C1A966 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C1A729AF735500C1A966 /* LoginController.swift */; };
 		8597C1AA29AF73A800C1A966 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C1A929AF73A800C1A966 /* RegistrationController.swift */; };
 		8597C1AC29AFA08400C1A966 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C1AB29AFA08400C1A966 /* Utilities.swift */; };
-		8597C1AE29AFC27C00C1A966 /* GoogleService-Info-2.plist in Resources */ = {isa = PBXBuildFile; fileRef = 8597C1AD29AFC27C00C1A966 /* GoogleService-Info-2.plist */; };
+		85CE238929B0A43E008B7725 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85CE238829B0A43E008B7725 /* GoogleService-Info.plist */; };
+		85CE238B29B0AB19008B7725 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CE238A29B0AB19008B7725 /* Constants.swift */; };
+		85CE238D29B0BAE4008B7725 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CE238C29B0BAE4008B7725 /* AuthService.swift */; };
 		9D251B2B9A6B824D561E0172 /* Pods_TwitterClone.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0AEDCCE2B206B8E45364895 /* Pods_TwitterClone.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +46,9 @@
 		8597C1A729AF735500C1A966 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		8597C1A929AF73A800C1A966 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		8597C1AB29AFA08400C1A966 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		8597C1AD29AFC27C00C1A966 /* GoogleService-Info-2.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info-2.plist"; sourceTree = "<group>"; };
+		85CE238829B0A43E008B7725 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		85CE238A29B0AB19008B7725 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		85CE238C29B0BAE4008B7725 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		B0AEDCCE2B206B8E45364895 /* Pods_TwitterClone.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TwitterClone.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -66,7 +70,6 @@
 				58EBBF8949AC9A242226443B /* Pods-TwitterClone.debug.xcconfig */,
 				6D80C58A65A260F2E177CAB3 /* Pods-TwitterClone.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -111,7 +114,7 @@
 				8597C18829AF61F600C1A966 /* LaunchScreen.storyboard */,
 				8597C18B29AF61F600C1A966 /* Info.plist */,
 				8597C1A229AF65F500C1A966 /* Assets.xcassets */,
-				8597C1AD29AFC27C00C1A966 /* GoogleService-Info-2.plist */,
+				85CE238829B0A43E008B7725 /* GoogleService-Info.plist */,
 			);
 			path = TwitterClone;
 			sourceTree = "<group>";
@@ -128,6 +131,7 @@
 			children = (
 				8597C1A429AF6D4000C1A966 /* Extensions.swift */,
 				8597C1AB29AFA08400C1A966 /* Utilities.swift */,
+				85CE238A29B0AB19008B7725 /* Constants.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -135,6 +139,7 @@
 		8597C19429AF623600C1A966 /* API */ = {
 			isa = PBXGroup;
 			children = (
+				85CE238C29B0BAE4008B7725 /* AuthService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -237,7 +242,7 @@
 			files = (
 				8597C18A29AF61F600C1A966 /* LaunchScreen.storyboard in Resources */,
 				8597C1A329AF65F500C1A966 /* Assets.xcassets in Resources */,
-				8597C1AE29AFC27C00C1A966 /* GoogleService-Info-2.plist in Resources */,
+				85CE238929B0A43E008B7725 /* GoogleService-Info.plist in Resources */,
 				8597C18529AF61F500C1A966 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -297,11 +302,13 @@
 				8597C1A129AF649900C1A966 /* ChatController.swift in Sources */,
 				8597C1A529AF6D4000C1A966 /* Extensions.swift in Sources */,
 				8597C1A829AF735500C1A966 /* LoginController.swift in Sources */,
+				85CE238D29B0BAE4008B7725 /* AuthService.swift in Sources */,
 				8597C19D29AF648100C1A966 /* ExploreController.swift in Sources */,
 				8597C18029AF61F500C1A966 /* SceneDelegate.swift in Sources */,
 				8597C19929AF631B00C1A966 /* MainTabController.swift in Sources */,
 				8597C1AA29AF73A800C1A966 /* RegistrationController.swift in Sources */,
 				8597C19B29AF644E00C1A966 /* FeedController.swift in Sources */,
+				85CE238B29B0AB19008B7725 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,12 +7,16 @@
 
 import UIKit
 import FirebaseAuth
+import FirebaseCore
+import FirebaseDatabase
+import FirebaseStorage
 
 class RegistrationController: UIViewController {
     
     //MARK: - Properties
     
     private let imagePickerController = UIImagePickerController()
+    private var profileImage: UIImage?
     
     private let addProfileImage: UIButton = {
         let button = UIButton(type: .system)
@@ -161,7 +165,29 @@ class RegistrationController: UIViewController {
     }
     
     @objc func signupButtonPressed() {
-        print("Pressed")
+        guard let profileImage = profileImage else {
+            print("Select image")
+            return
+        }
+        guard let email = emailField.text else {return}
+        guard let password = passwordField.text else {return}
+        guard let fullName = fullNameField.text else {return}
+        guard let userName = UsernameField.text else {return}
+        
+        
+        
+       
+        
+        AuthService.shared.registeruser(parameters: AuthParameters(email: email, password: password, userName: userName, fullName: fullName, profileImage: self.profileImage!)) { error, ref in
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            print("SUCCESSFUL")
+        }
+        
+        
+        
     }
     
     
@@ -212,7 +238,14 @@ class RegistrationController: UIViewController {
 
 extension RegistrationController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let profileImage = info[.editedImage] as? UIImage else {return}
+        guard let profileImage = info[.editedImage] as? UIImage else { return }
+        self.profileImage = profileImage
+        
+        
+        
+        
+        
+        
         
         addProfileImage.layer.cornerRadius = 150 / 2
         addProfileImage.layer.masksToBounds = true
