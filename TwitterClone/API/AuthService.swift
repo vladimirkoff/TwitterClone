@@ -72,7 +72,7 @@ struct AuthService {
         }
     }
     
-    func logUserIn(withEmail email: String, withPassword password: String) {
+    func logUserIn(withEmail email: String, withPassword password: String, completion: @escaping(Error?, DatabaseReference) -> Void ) {
         Auth.auth().signIn(withEmail: email, password: password) { result, error in
             if let error = error {
                 print(error.localizedDescription)
@@ -80,6 +80,7 @@ struct AuthService {
             }
             print("SUCCESS")
         }
+     
     }
     
     
