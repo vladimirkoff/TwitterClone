@@ -14,7 +14,13 @@ class ProfileController: UICollectionViewController {
     
     //MARK: - Properties
     
+    
+    
+    
+    
     //MARK: - Selector
+    
+   
     
     //MARK: - Helpers
     
@@ -37,6 +43,7 @@ class ProfileController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.isHidden = true
     }
     
@@ -46,7 +53,7 @@ class ProfileController: UICollectionViewController {
 
 extension ProfileController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        return CGSize(width: view.frame.width, height: 300)
+        return CGSize(width: view.frame.width, height: 350)
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
