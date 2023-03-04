@@ -45,7 +45,6 @@ class TweetCell: UICollectionViewCell {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0  // infinite number of lines
-        label.text = "Some test tweet..."
         return label
     }()
     
@@ -93,7 +92,7 @@ class TweetCell: UICollectionViewCell {
     
     //MARK: - Lifecycle
     
-    override init(frame: CGRect) {
+    override init(frame: CGRect) {  // with collection view cell
         super.init(frame: frame)
         backgroundColor = .white
         

@@ -16,6 +16,12 @@ class ProfileController: UICollectionViewController {
     
     private var user: User
     
+    private var tweets = [Tweet]() {
+        didSet {
+            collectionView.reloadData()
+        }
+    }
+    
 
     //MARK: - Selector
     
@@ -47,7 +53,7 @@ class ProfileController: UICollectionViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        fetchTweets()
         configureUI()
     }
     
@@ -68,10 +74,11 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return tweets.count
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TweetCell
+        cell.tweet = tweets[indexPath.row]
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -85,9 +92,33 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
         return header // creating header
     }
     
+    //MARK: - API
+    
+    func fetchTweets() {
+        TweetService.shared.fetchTweets(forUser: user) { tweets in
+            self.tweets = tweets
+        }
+    }
+    
 }
 
 extension ProfileController: DismissprofileDelegate {
+    func handleEditProfileFollow(_ header: ProfileHeader) {
+        
+        var userIsFollowed = false
+        
+        if userIsFollowed {
+            UserService.shared.unfollowUser(uid: user.uid) { (error, ref) in
+                print("Unfollow")
+            }
+        } else {
+            UserService.shared.followUser(uid: user.uid) { (error, ref) in
+                print("Follow")
+            }
+        }
+
+    }
+    
     
     func dismissProfile() {
         

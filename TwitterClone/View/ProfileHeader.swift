@@ -9,6 +9,7 @@ import UIKit
 
 protocol DismissprofileDelegate {
     func dismissProfile()
+    func handleEditProfileFollow(_ header: ProfileHeader)
 }
 
 class ProfileHeader: UICollectionReusableView {
@@ -41,14 +42,13 @@ class ProfileHeader: UICollectionReusableView {
     private let fullNameLabel: UILabel = {
     let label = UILabel()
     label.font = UIFont.systemFont(ofSize: 20)
-    label.text = "Vladimir Kovalev"
     return label
     }()
     
     private let userNamelabel: UILabel = {
     let label = UILabel()
     label.font = UIFont.systemFont(ofSize: 16)
-    label.text = "@vladimir"
+    label.textColor = .lightGray
     return label
     }()
 
@@ -176,7 +176,7 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     @objc func followButtonPressed() {
-        print("Followed")
+        delegate?.handleEditProfileFollow(self)
     }
     
     @objc func followingTapped() {
@@ -207,6 +207,8 @@ extension ProfileHeader: ProfileCategoryDelegate {
         followersLabel.attributedText = viewModel.followersString
         
         profileImageView.sd_setImage(with: URL(string: user.profileImageUrl))
+        userNamelabel.text = "@\(user.userName)"
+        fullNameLabel.text = user.fullName
         
         editProfileButton.setTitle(viewModel.actionButtonTitle, for: .normal)
         

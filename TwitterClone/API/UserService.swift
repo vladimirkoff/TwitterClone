@@ -9,6 +9,8 @@ import Foundation
 import FirebaseAuth
 import FirebaseDatabase
 
+typealias DatabaseCompletion = ((Error?, DatabaseReference) -> Void)  // NEW
+
 struct UserService {
     static let shared = UserService()
     
@@ -22,4 +24,39 @@ struct UserService {
             completion(user)
         }
     }
+    
+    func fetchUsers(completion: @escaping([User]) -> Void) {
+        var users = [User]()
+        REF_USERS.observe(.childAdded) { snapshot in
+            let uid = snapshot.key
+            
+            guard let dictionary = snapshot.value as? [String : AnyObject] else { return }
+                    
+            let user = User(uid: uid, dictionary: dictionary)
+            users.append(user)
+            completion(users)
+        }
+    }
+    
+    func followUser(uid: String, completion: @escaping(Error?, DatabaseReference) -> Void) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        REF_USER_FOLLOWING.child(currentUid).updateChildValues([uid: 1]) { error, ref in
+            REF_USER_FOLLOWERS.child(uid).updateChildValues([currentUid : 1]) { error, ref in
+                
+            }
+        }
+    }
+    
+    func unfollowUser(uid: String, completion: @escaping(Error?, DatabaseReference) -> Void) {
+        guard let currentUid = Auth.auth().currentUser?.uid else { return }
+        
+        REF_USER_FOLLOWING.child(currentUid).child(uid).removeValue { error, ref in
+            REF_USER_FOLLOWERS.child(uid).child(currentUid).removeValue { error, ref in
+                print("DEBUG: UNFOLLOWED")
+            }
+        }
+
+    }
+    
 }

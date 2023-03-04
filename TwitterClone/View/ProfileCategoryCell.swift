@@ -38,11 +38,6 @@ class ProfileCategoryCell: UICollectionViewCell {
         backgroundColor = .white
         addSubview(titleLabel)
         titleLabel.center(inView: self)
-        
-        
-        
-        
-        
     }
     
     required init?(coder: NSCoder) {
