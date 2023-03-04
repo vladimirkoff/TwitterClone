@@ -14,11 +14,19 @@ class ProfileController: UICollectionViewController {
     
     //MARK: - Properties
     
+    private var user: User
     
-    
-    
-    
+
     //MARK: - Selector
+    
+    init(user: User) {
+        self.user = user
+        super.init(collectionViewLayout: UICollectionViewFlowLayout())
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
    
     
@@ -36,13 +44,16 @@ class ProfileController: UICollectionViewController {
     
     //MARK: - Lifecycle
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         configureUI()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
+        
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.isHidden = true
     }
@@ -69,9 +80,19 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
+        header.user = self.user
+        header.delegate = self
         return header // creating header
     }
     
+}
+
+extension ProfileController: DismissprofileDelegate {
+    
+    func dismissProfile() {
+        
+        navigationController?.popViewController(animated: true) // pops the vc from the stack of view controllers, so it just deletes the top view controller from an array
+    }
 }
 
 

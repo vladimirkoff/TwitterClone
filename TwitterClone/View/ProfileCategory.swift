@@ -9,14 +9,33 @@ import UIKit
 
 private let reuseIdentifier = "ProfileCategoryCell"
 
+protocol ProfileCategoryDelegate: class {
+    func animateSelector(_ view: ProfileCategory, didSelect indexPath: IndexPath )
+}
+
 class ProfileCategory: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    
+    
+    
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        delegate?.animateSelector(self, didSelect: indexPath)
+    }
+    
+    weak var delegate: ProfileCategoryDelegate?
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ProfileCategoryCell
+        
+        let option = ProfileCategoryOptions(rawValue: indexPath.row)
+        cell.option = option
+        
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return ProfileCategoryOptions.allCases.count
     }
     
     //MARK: - Properties
@@ -39,6 +58,10 @@ class ProfileCategory: UIView, UICollectionViewDelegate, UICollectionViewDataSou
         
         addSubview(collectionView)
         collectionView.addConstraintsToFillView(self)
+        
+        let selectedIndexPath = IndexPath(row: 0, section: 0)
+        collectionView.selectItem(at: selectedIndexPath, animated: true, scrollPosition: .left)
+        
         
     }
     

@@ -7,11 +7,24 @@
 
 import UIKit
 
+protocol DismissprofileDelegate {
+    func dismissProfile()
+}
+
 class ProfileHeader: UICollectionReusableView {
     
+   
     //MARK: - Properties
     
     private let profileCategory = ProfileCategory()
+    
+    var delegate: DismissprofileDelegate?
+    
+    var user: User? {
+        didSet {
+            configure()
+        }
+    }
     
     private lazy var containerView: UIView = {
     let view = UIView()
@@ -20,7 +33,7 @@ class ProfileHeader: UICollectionReusableView {
     backButton.anchor(top: view.topAnchor, left: view.leftAnchor, paddingTop: 42, paddingLeft: 16)
         
         
-        
+    profileCategory.delegate = self
         
     return view
     }()
@@ -79,6 +92,34 @@ class ProfileHeader: UICollectionReusableView {
     return label
     }()
     
+    private let underlineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .twitterBlue
+        return view
+    }()
+    
+    private let followingLabel: UILabel = {
+        let label = UILabel()
+        
+        let followTap = UIGestureRecognizer(target: self, action: #selector(followingTapped))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(followTap)
+        label.text = "0 Following"
+        
+        return label
+    }()
+    
+    private let followersLabel: UILabel = {
+        let label = UILabel()
+        
+        let followersTap = UIGestureRecognizer(target: self, action: #selector(followersTapped))
+        label.isUserInteractionEnabled = true
+        label.addGestureRecognizer(followersTap)
+        label.text = "0 Followers"
+        
+        return label
+    }()
+    
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
@@ -103,11 +144,22 @@ class ProfileHeader: UICollectionReusableView {
         userInfoStack.distribution = .fillProportionally
         userInfoStack.spacing = 4
         
+        let followStack = UIStackView(arrangedSubviews: [followersLabel, followingLabel])
+        followStack.axis = .horizontal
+        followStack.spacing = 8
+        followStack.distribution = .fillEqually
+        
         addSubview(userInfoStack)
         userInfoStack.anchor(top: profileImageView.bottomAnchor, left: leftAnchor, right: rightAnchor, paddingTop: 8, paddingLeft: 12, paddingRight: 12)
         
         addSubview(profileCategory)
         profileCategory.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 50)
+        
+        addSubview(underlineView)
+        underlineView.anchor(left: leftAnchor, bottom: bottomAnchor, width: frame.width/3, height: 2)
+        
+        addSubview(followStack)
+        followStack.anchor(top: userInfoStack.bottomAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 12)
         
     }
     
@@ -120,12 +172,43 @@ class ProfileHeader: UICollectionReusableView {
     //MARK: - Selector
     
     @objc func goBack() {
-        print("Went back")
+        delegate?.dismissProfile()
     }
     
     @objc func followButtonPressed() {
         print("Followed")
     }
     
+    @objc func followingTapped() {
+        print("Following tapped")
+    }
     
+    @objc func followersTapped() {
+        print("Followers tapped")
+    }
+    
+    
+}
+
+extension ProfileHeader: ProfileCategoryDelegate {
+    func animateSelector(_ view: ProfileCategory, didSelect indexPath: IndexPath) {
+        guard let cell = view.collectionView.cellForItem(at: indexPath) as? ProfileCategoryCell else { return }
+        
+        let xPos = cell.frame.origin.x
+        UIView.animate(withDuration: 0.3) {
+            self.underlineView.frame.origin.x = xPos
+        }
+    }
+    
+    func configure() {
+        guard let user = user else { return }
+        let viewModel = ProfileHeaderViewModel(user: user)
+        followingLabel.attributedText = viewModel.followingString
+        followersLabel.attributedText = viewModel.followersString
+        
+        profileImageView.sd_setImage(with: URL(string: user.profileImageUrl))
+        
+        editProfileButton.setTitle(viewModel.actionButtonTitle, for: .normal)
+        
+    }
 }

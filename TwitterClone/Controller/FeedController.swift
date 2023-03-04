@@ -11,10 +11,12 @@ import SDWebImage
 private let reuseidentifier = "TweetCell"
 
 class FeedController: UICollectionViewController, TweetCellDelegate {
-    
-    func handleProfileImageTap() {
-        navigationController?.pushViewController(ProfileController(collectionViewLayout: UICollectionViewFlowLayout()), animated: true)
+    func handleProfileImageTap(_ cell: TweetCell) {
+        guard let user = cell.tweet?.user else { return }
+        navigationController?.pushViewController(ProfileController(user: user), animated: true)
+
     }
+    
     
     
     var user: User? {
@@ -39,6 +41,10 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
         
         configureUI()
         fetchTweets()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
     }
     
     //MARK: - Helpers

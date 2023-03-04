@@ -9,7 +9,7 @@ import UIKit
 import SDWebImage
 
 protocol TweetCellDelegate: class {
-    func handleProfileImageTap()
+    func handleProfileImageTap(_ cell: TweetCell)
 }
 
 class TweetCell: UICollectionViewCell {
@@ -152,7 +152,7 @@ class TweetCell: UICollectionViewCell {
     }
     
     @objc func goToUserProfile() {
-        delegate?.handleProfileImageTap()
+        delegate?.handleProfileImageTap(self)
     }
     
     //MARK: - Helpers
