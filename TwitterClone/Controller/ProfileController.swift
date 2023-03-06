@@ -39,6 +39,9 @@ class ProfileController: UICollectionViewController {
     //MARK: - Helpers
     
     func configureUI() {
+        
+        fetchUserStats()
+        
         view.backgroundColor = .white
         
         collectionView.contentInsetAdjustmentBehavior = .never // prolonges the header up to the top end of the screen
@@ -55,6 +58,7 @@ class ProfileController: UICollectionViewController {
         super.viewDidLoad()
         fetchTweets()
         configureUI()
+        checkIfUserIsFollowed()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -100,30 +104,54 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
         }
     }
     
+    func checkIfUserIsFollowed() {
+        UserService.shared.checkIfFollowed(user.uid) { isFollowed in
+            self.user.isFollowed = isFollowed
+            self.collectionView.reloadData()
+        }
+    }
+    
 }
 
 extension ProfileController: DismissprofileDelegate {
+    
     func handleEditProfileFollow(_ header: ProfileHeader) {
+        if user.isCurrentuser {
+            return
+        }
         
-        var userIsFollowed = false
-        
-        if userIsFollowed {
+        if user.isFollowed {
             UserService.shared.unfollowUser(uid: user.uid) { (error, ref) in
-                print("Unfollow")
+                self.user.isFollowed = false
+                header.editProfileButton.setTitle("Follow", for: .normal)
+                header.editProfileButton.setTitleColor(.white, for: .normal)
+                header.editProfileButton.backgroundColor = .twitterBlue
+                self.collectionView.reloadData()
             }
         } else {
             UserService.shared.followUser(uid: user.uid) { (error, ref) in
-                print("Follow")
+                self.user.isFollowed = true
+                header.editProfileButton.setTitle("Unfollow", for: .normal)
+                header.editProfileButton.setTitleColor(.twitterBlue, for: .normal)
+                header.editProfileButton.backgroundColor = .white
+                self.collectionView.reloadData()
             }
         }
-
     }
     
     
     func dismissProfile() {
-        
         navigationController?.popViewController(animated: true) // pops the vc from the stack of view controllers, so it just deletes the top view controller from an array
     }
+    
+    func fetchUserStats() {
+        UserService.shared.fetchUserStats(uid: user.uid) { stats in
+            print("User has \(stats.followers) followers and \(stats.following) following")
+            self.user.stats = stats
+            self.collectionView.reloadData()
+        }
+    }
+    
 }
 
 

@@ -7,7 +7,6 @@
 
 import UIKit
 
-
 enum ProfileCategoryOptions: Int, CaseIterable {
     case tweets
     case replies
@@ -25,18 +24,24 @@ enum ProfileCategoryOptions: Int, CaseIterable {
 struct ProfileHeaderViewModel {
     
     var followersString: NSAttributedString? {
-        return attributedText(withValue: 0, text: "Followers")
+        return attributedText(withValue: user.stats?.followers ?? 0, text: "Followers")
     }
     
     var followingString: NSAttributedString? {
-        return attributedText(withValue: 3, text: "Following")
+        return attributedText(withValue: user.stats?.following ?? 0, text: "Following")
     }
     
     var actionButtonTitle: String {
         if user.isCurrentuser {
             return "Edit profile"
-        } else {
+        }
+        if !user.isFollowed && !user.isCurrentuser {
             return "Follow"
+        }
+        if user.isFollowed {
+            return "Unfollow"
+        } else {
+            return ""
         }
     }
     

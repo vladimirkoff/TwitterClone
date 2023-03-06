@@ -70,10 +70,10 @@ class ProfileHeader: UICollectionReusableView {
     return iv
     }()
 
-    private lazy var editProfileButton: UIButton = {
+    lazy var editProfileButton: UIButton = {
     let button = UIButton(type: .system)
     button.backgroundColor = .white
-    button.setTitle("Loading", for: .normal)
+//    button.setTitle("Loading", for: .normal)
     button.layer.borderColor = UIColor.twitterBlue.cgColor
     button.layer.borderWidth = 1.25
     button.layer.cornerRadius = 36 / 2
