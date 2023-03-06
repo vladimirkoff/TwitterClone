@@ -11,6 +11,10 @@ class TweetHeader: UICollectionReusableView {
     
     //MARK: - Proeprties
     
+    var tweet: Tweet? {
+        didSet { configure() }
+    }
+    
     private lazy var profileImageView: UIImageView = {  // it must be lazy!
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
@@ -30,7 +34,6 @@ class TweetHeader: UICollectionReusableView {
         private let fullNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
-            label.text = "Vladimir Kovalev"
         return label
         }()
     
@@ -38,7 +41,6 @@ class TweetHeader: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lightGray
-            label.text = "@fdgfs"
         return label
         }()
     
@@ -46,7 +48,6 @@ class TweetHeader: UICollectionReusableView {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.numberOfLines = 0  // infinite number of lines
-        label.text = "kgbhjfvjemrktjvfghdciferuhvdbjncewhrbcjhjgjtrgifeuhjvgnkurehybvdjvihurecvbfnjcruh"
         return label
     }()
     
@@ -67,19 +68,9 @@ class TweetHeader: UICollectionReusableView {
         return button
     }()
     
-    private lazy var retweetsLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "0 Retweets"
-        return label
-    }()
+    private lazy var retweetsLabel = UILabel()
     
-    private lazy var likesLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "0 Likes"
-        return label
-    }()
+    private lazy var likesLabel = UILabel()
     
     private lazy var statsView: UIView = {
         let view = UIView()
@@ -136,9 +127,8 @@ class TweetHeader: UICollectionReusableView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configure()
-        
-        
+        backgroundColor = .white
+
         let stack = UIStackView(arrangedSubviews: [fullNameLabel, userNamelabel])  // order makes sense ( first - the highest )
         stack.axis = .vertical
         stack.spacing = -6
@@ -170,7 +160,6 @@ class TweetHeader: UICollectionReusableView {
         actionStack.centerX(inView: self)
         actionStack.anchor(bottom: bottomAnchor, paddingBottom: 12)
        
-        
         
     }
     
@@ -209,7 +198,20 @@ class TweetHeader: UICollectionReusableView {
     //MARK: - Helpers
     
     func configure() {
-        backgroundColor = .white
+        print(tweet)
+        guard let tweet = self.tweet else { return }
+        
+        
+        let viewModel = TweetViewModel(tweet: tweet)
+    
+        captionLabel.text = tweet.caption
+        userNamelabel.text = viewModel.userName
+        fullNameLabel.text = tweet.user.fullName
+        profileImageView.sd_setImage(with: URL(string: viewModel.profileImageUrl))
+        retweetsLabel.attributedText = viewModel.retweetsString
+        likesLabel.attributedText = viewModel.likesString
+        dateLabel.text = viewModel.headerTimestamp
+
     }
     
     func createButton(withImageName imageName: String) -> UIButton {

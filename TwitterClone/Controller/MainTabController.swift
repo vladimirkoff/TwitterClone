@@ -12,8 +12,6 @@ class MainTabController: UITabBarController {
     
     var user: User? {
         didSet {
-            print("set in main")
-            
             guard let nav = viewControllers?[0] as? UINavigationController else { return }
             
             guard let feed = nav.viewControllers.first as? FeedController else { return }
@@ -98,11 +96,10 @@ class MainTabController: UITabBarController {
     
     @objc func actionButtonPressed() {
         guard let useR = self.user else { return }
-        let controller = UploadTweetController(user: useR)
+        let controller = UploadTweetController(user: useR, config: .tweet)
         let nav = UINavigationController(rootViewController: controller)
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
-        
     }
     
     //MARK: - API

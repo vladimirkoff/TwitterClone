@@ -8,6 +8,8 @@
 import UIKit
 import SDWebImage
 
+
+
 class UploadTweetController: UIViewController {
     
     //MARK: - Properties
@@ -25,6 +27,15 @@ class UploadTweetController: UIViewController {
         return button
     }()
     
+    private lazy var replyLabel: UILabel = {  // when trying to access view from inside the block we need to use LAZY
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14)
+        label.textColor = .lightGray
+        label.text = "Replying to @jdknvds"
+        label.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
+        return label
+    }()
+    
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFit
@@ -36,13 +47,16 @@ class UploadTweetController: UIViewController {
     }()
     
     private let user: User
+    private let config: UploadTweetConfiguration
+    private lazy var viewModel = UploadTweetViewModel(config: config)
     
     private let captionTextView = CaptionTextView()
     
     //MARK: - Lifecycle
     
-     init(user: User) {   // passing user from another controller
+    init(user: User, config: UploadTweetConfiguration) {   // passing user from another controller
         self.user = user
+        self.config = config
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -57,7 +71,8 @@ class UploadTweetController: UIViewController {
         
         configureUI()
         configureNavigationBar()
-        print("Username - \(user.userName)")
+        
+        
     }
     
     
@@ -70,7 +85,7 @@ class UploadTweetController: UIViewController {
     
     @objc func uploadTweet() {
         guard let caption = captionTextView.text else { return }
-        TweetService.shared.uploadTweet(caption: caption) { error, ref in
+        TweetService.shared.uploadTweet(caption: caption, type: config) { error, ref in
             print("UPLOADED")
             self.dismiss(animated: true, completion: nil)
         }
@@ -86,11 +101,18 @@ class UploadTweetController: UIViewController {
         let stack = UIStackView(arrangedSubviews: [profileImageView, captionTextView])
         stack.axis = .horizontal
         stack.spacing = 12
+        stack.alignment = .leading
+        
+        let newStack = UIStackView(arrangedSubviews: [replyLabel, stack])
+        newStack.axis = .vertical
+        stack.alignment = .leading
+        stack.spacing = 14
+        
         
         view.backgroundColor = .white
         
-        view.addSubview(stack)
-        stack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 16, paddingLeft: 16, paddingRight: 16)
+        view.addSubview(newStack)
+        newStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 16, paddingLeft: 16, paddingRight: 16)
         
         
         
@@ -98,6 +120,14 @@ class UploadTweetController: UIViewController {
         guard let url = URL(string: user.profileImageUrl) else { return }
         profileImageView.sd_setImage(with: url)
         
+        actionButton.setTitle(viewModel.actiomButtonTitle, for: .normal)
+        captionTextView.placeHolder.text = viewModel.placeholderText
+        
+        replyLabel.isHidden = !viewModel.shouldShowReply
+        
+        guard let replyText = viewModel.replyText else { return }
+                
+                replyLabel.text = replyText
         
     }
     
@@ -108,5 +138,6 @@ class UploadTweetController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: actionButton)
     }
+
     
 }

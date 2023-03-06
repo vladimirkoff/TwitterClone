@@ -11,13 +11,19 @@ import SDWebImage
 private let reuseidentifier = "TweetCell"
 
 class FeedController: UICollectionViewController, TweetCellDelegate {
+    func handleReplyTapped(_ cell: TweetCell) {
+        guard let tweet = cell.tweet else { return }
+        let controller = UploadTweetController(user: tweet.user, config: .reply(tweet))
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
     func handleProfileImageTap(_ cell: TweetCell) {
         guard let user = cell.tweet?.user else { return }
         navigationController?.pushViewController(ProfileController(user: user), animated: true)
 
     }
-    
-    
     
     var user: User? {
         didSet {
@@ -100,7 +106,11 @@ extension FeedController {
 
 extension FeedController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width, height: 120)
+        let viewModel = TweetViewModel(tweet: tweets[indexPath.row])
+        let height = viewModel.size(forWidth: view.frame.width).height
+        
+        
+        return CGSize(width: view.frame.width, height: height + 60)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

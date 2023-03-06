@@ -10,6 +10,7 @@ import SDWebImage
 
 protocol TweetCellDelegate: class {
     func handleProfileImageTap(_ cell: TweetCell)
+    func handleReplyTapped(_ cell: TweetCell)
 }
 
 class TweetCell: UICollectionViewCell {
@@ -135,7 +136,7 @@ class TweetCell: UICollectionViewCell {
     //MARK: - Selectors
     
     @objc func comment() {
-        print("Comment")
+        delegate?.handleReplyTapped(self)
     }
     
     @objc func retweet() {
