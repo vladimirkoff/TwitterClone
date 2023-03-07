@@ -13,7 +13,8 @@ private var cellIdentifier = "TweetCell"
 class TweetController: UICollectionViewController {
     //MARK: - Properties
     
-    private let tweet: Tweet
+    private var tweet: Tweet
+    private var actionSheet: ActionSheetLauncher!
     private var replies = [Tweet]() {
         didSet {
             collectionView.reloadData()
@@ -24,6 +25,7 @@ class TweetController: UICollectionViewController {
     
     init(tweet: Tweet) {
         self.tweet = tweet
+//        self.actionSheet = ActionSheetLauncher(user: tweet.user)
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
@@ -83,7 +85,46 @@ extension TweetController: UICollectionViewDelegateFlowLayout {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! TweetHeader
         print("Here")
         header.tweet = self.tweet
+        header.delegate = self
         return header // creating header
+    }
+    
+}
+
+extension TweetController: TweetHeaderDelegate {
+    func showActionSheet() {
+        if tweet.user.isCurrentuser {
+            actionSheet = ActionSheetLauncher(user: tweet.user)
+            self.actionSheet.delegate = self
+            actionSheet.show()
+        } else {
+            UserService.shared.checkIfFollowed(tweet.user.uid) { isFollowed in
+                var user = self.tweet.user
+                user.isFollowed = isFollowed
+                self.actionSheet = ActionSheetLauncher(user: user)
+                self.actionSheet.delegate = self
+                self.actionSheet.show()
+            }
+        }
+    }
+}
+
+extension TweetController: ActionSheetDelegate {
+    func didSelect(option: ActionSheetOptions) {
+        switch option {
+        case .follow(let user):
+            UserService.shared.followUser(uid: user.uid) { error, ref in
+                print("Did follow user ")
+            }
+        case .unfollow(let user):
+            UserService.shared.unfollowUser(uid: user.uid) { err, ref in
+                print("Did unfollow")
+            }
+        case .report:
+            print("DEBUG: ERPORT")
+        case .delete:
+            print("DELETE")
+        }
     }
     
 }

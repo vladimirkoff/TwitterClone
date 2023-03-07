@@ -9,12 +9,13 @@ import Foundation
 
 struct Tweet {
     let caption: String
-    let likes: Int
+    var likes: Int
     var timestamp: Date!
     let tweetID: String
     let uid: String
     let retweetCount: Int
-    let user: User
+    var user: User
+    var didLike = false
     
     init(user: User, tweetID: String, dictionary: [String: Any]) {
         self.tweetID = tweetID

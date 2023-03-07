@@ -57,8 +57,16 @@ struct TweetViewModel {
         title.append(NSAttributedString(string: " @\(user.userName) • ", attributes: [.font : UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.lightGray]))
         title.append(NSAttributedString(string: timestamp, attributes: [.font : UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.lightGray]))
         
-        print(timestamp)
         return title
+    }
+    
+    var likeButtonTintColor: UIColor {
+        return tweet.didLike ? .red : .lightGray
+    }
+    
+    var likeBittonImage: UIImage {
+        let image = tweet.didLike ? "like_filled" : "like"
+        return UIImage(named: image)!
     }
     
     init(tweet: Tweet) {

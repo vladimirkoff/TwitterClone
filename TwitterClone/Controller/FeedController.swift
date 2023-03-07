@@ -11,6 +11,16 @@ import SDWebImage
 private let reuseidentifier = "TweetCell"
 
 class FeedController: UICollectionViewController, TweetCellDelegate {
+    func handleLikeTapped(_ cell: TweetCell) {
+        guard let tweet = cell.tweet else { return }
+        
+        TweetService.shared.likeTweet(tweet: tweet) { err, ref in
+            cell.tweet?.didLike.toggle()
+            let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
+            cell.tweet?.likes = likes
+        }
+    }
+    
     func handleReplyTapped(_ cell: TweetCell) {
         guard let tweet = cell.tweet else { return }
         let controller = UploadTweetController(user: tweet.user, config: .reply(tweet))
@@ -87,6 +97,14 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
     func fetchTweets() {
         TweetService.shared.fetchTweets { tweets in
             self.tweets = tweets
+            
+            for (index, tweet) in tweets.enumerated() {
+                TweetService.shared.checkIfUserLikedTweet(tweet) { isLiked in
+                    guard isLiked == true else { return }
+                    
+                    self.tweets[index].didLike = true
+                }
+            }
         }
     }
     
