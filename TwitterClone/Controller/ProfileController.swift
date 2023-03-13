@@ -16,9 +16,20 @@ class ProfileController: UICollectionViewController {
     
     private var user: User
     
-    private var tweets = [Tweet]() {
+    private var selectedCategory: ProfileCategoryOptions = .tweets {
         didSet {
             collectionView.reloadData()
+        }
+    }
+    
+    private var tweets = [Tweet]()
+    private var likedTweets = [Tweet]()
+    private var replies = [Tweet]()
+    private var currentDataSource: [Tweet] {
+        switch selectedCategory {
+        case .tweets: return tweets
+        case .replies: return replies
+        case .likes: return likedTweets
         }
     }
     
@@ -82,7 +93,7 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     }
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TweetCell
-        cell.tweet = tweets[indexPath.row]
+        cell.tweet = currentDataSource[indexPath.row]
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -101,6 +112,7 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     func fetchTweets() {
         TweetService.shared.fetchTweets(forUser: user) { tweets in
             self.tweets = tweets
+            self.collectionView.reloadData()
         }
     }
     

@@ -17,7 +17,7 @@ class ProfileCategory: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     
     
     
-    
+ 
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         delegate?.animateSelector(self, didSelect: indexPath)

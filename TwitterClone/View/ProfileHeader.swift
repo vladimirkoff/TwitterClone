@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import ActiveLabel
 
 protocol DismissprofileDelegate {
     func dismissProfile()

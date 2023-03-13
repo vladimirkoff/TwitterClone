@@ -12,4 +12,5 @@ target 'TwitterClone' do
   pod 'FirebaseDatabase'
   pod 'FirebaseStorage'
   pod 'SDWebImage', '~> 5.0'
+  pod 'ActiveLabel'
 end

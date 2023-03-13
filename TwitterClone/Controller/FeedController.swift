@@ -12,6 +12,15 @@ private let reuseidentifier = "TweetCell"
 
 class FeedController: UICollectionViewController, TweetCellDelegate {
     
+    func fetchUser(with username: String) {
+        UserService.shared.fetchUserWithUsername(with: username) { user in
+            print(user.userName)
+            let controller = ProfileController(user: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
+    
+    
     func handleLikeTapped(_ cell: TweetCell) {
         guard let tweet = cell.tweet else { return }
         TweetService.shared.likeTweet(tweet: tweet) { err, ref in
