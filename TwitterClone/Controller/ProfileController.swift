@@ -135,6 +135,8 @@ extension ProfileController: DismissprofileDelegate {
                 header.editProfileButton.setTitleColor(.twitterBlue, for: .normal)
                 header.editProfileButton.backgroundColor = .white
                 self.collectionView.reloadData()
+                
+                NotificationService.shared.uploadNotification(type: .follow, user: self.user)
             }
         }
     }

@@ -35,6 +35,10 @@
 		8597C1A829AF735500C1A966 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C1A729AF735500C1A966 /* LoginController.swift */; };
 		8597C1AA29AF73A800C1A966 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C1A929AF73A800C1A966 /* RegistrationController.swift */; };
 		8597C1AC29AFA08400C1A966 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C1AB29AFA08400C1A966 /* Utilities.swift */; };
+		85B3868529BF07FE00A687C4 /* Notifictation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3868429BF07FE00A687C4 /* Notifictation.swift */; };
+		85B3868729BF0BD900A687C4 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3868629BF0BD900A687C4 /* NotificationService.swift */; };
+		85B3868929BF130500A687C4 /* NotificationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3868829BF130500A687C4 /* NotificationCell.swift */; };
+		85B3868B29BF194E00A687C4 /* NotificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85B3868A29BF194E00A687C4 /* NotificationViewModel.swift */; };
 		85BFB6BB29B37BDF0060797E /* UserCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85BFB6BA29B37BDF0060797E /* UserCell.swift */; };
 		85CE238929B0A43E008B7725 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 85CE238829B0A43E008B7725 /* GoogleService-Info.plist */; };
 		85CE238B29B0AB19008B7725 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85CE238A29B0AB19008B7725 /* Constants.swift */; };
@@ -80,6 +84,10 @@
 		8597C1A729AF735500C1A966 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		8597C1A929AF73A800C1A966 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
 		8597C1AB29AFA08400C1A966 /* Utilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
+		85B3868429BF07FE00A687C4 /* Notifictation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifictation.swift; sourceTree = "<group>"; };
+		85B3868629BF0BD900A687C4 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
+		85B3868829BF130500A687C4 /* NotificationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationCell.swift; sourceTree = "<group>"; };
+		85B3868A29BF194E00A687C4 /* NotificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationViewModel.swift; sourceTree = "<group>"; };
 		85BFB6BA29B37BDF0060797E /* UserCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserCell.swift; sourceTree = "<group>"; };
 		85CE238829B0A43E008B7725 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		85CE238A29B0AB19008B7725 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -172,6 +180,7 @@
 			children = (
 				85CE239029B0CE87008B7725 /* User.swift */,
 				8527D37829B1CBDD007E16B1 /* Tweet.swift */,
+				85B3868429BF07FE00A687C4 /* Notifictation.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -193,6 +202,7 @@
 				85CE238C29B0BAE4008B7725 /* AuthService.swift */,
 				85CE238E29B0CA7F008B7725 /* UserService.swift */,
 				85CE239629B0E869008B7725 /* TweetService.swift */,
+				85B3868629BF0BD900A687C4 /* NotificationService.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -204,6 +214,7 @@
 				853D0FC829B240B100B28E0A /* ProfileHeaderViewModel.swift */,
 				85769A9429B60CB7008E4F70 /* UploadTweetViewModel.swift */,
 				852CF57D29B7421600BDB4CA /* ActionSheetViewModel.swift */,
+				85B3868A29BF194E00A687C4 /* NotificationViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -235,6 +246,7 @@
 				85BFB6BA29B37BDF0060797E /* UserCell.swift */,
 				85769A9229B5E9C0008E4F70 /* TweetHeader.swift */,
 				852CF57B29B73D1300BDB4CA /* ActionSheetCell.swift */,
+				85B3868829BF130500A687C4 /* NotificationCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -373,6 +385,8 @@
 				8597C1A129AF649900C1A966 /* ChatController.swift in Sources */,
 				852CF57C29B73D1300BDB4CA /* ActionSheetCell.swift in Sources */,
 				8597C1A529AF6D4000C1A966 /* Extensions.swift in Sources */,
+				85B3868B29BF194E00A687C4 /* NotificationViewModel.swift in Sources */,
+				85B3868529BF07FE00A687C4 /* Notifictation.swift in Sources */,
 				8527D38129B1EB3B007E16B1 /* ProfileController.swift in Sources */,
 				85769A9129B5E7C0008E4F70 /* TweetController.swift in Sources */,
 				8527D38329B1F34F007E16B1 /* ProfileHeader.swift in Sources */,
@@ -386,10 +400,12 @@
 				8597C19D29AF648100C1A966 /* ExploreController.swift in Sources */,
 				8597C18029AF61F500C1A966 /* SceneDelegate.swift in Sources */,
 				8597C19929AF631B00C1A966 /* MainTabController.swift in Sources */,
+				85B3868729BF0BD900A687C4 /* NotificationService.swift in Sources */,
 				85769A9729B619F8008E4F70 /* ActionSheetLaucnher.swift in Sources */,
 				8527D37F29B1E3CC007E16B1 /* TweetViewModel.swift in Sources */,
 				85769A9329B5E9C0008E4F70 /* TweetHeader.swift in Sources */,
 				852CF57E29B7421600BDB4CA /* ActionSheetViewModel.swift in Sources */,
+				85B3868929BF130500A687C4 /* NotificationCell.swift in Sources */,
 				8597C1AA29AF73A800C1A966 /* RegistrationController.swift in Sources */,
 				8597C19B29AF644E00C1A966 /* FeedController.swift in Sources */,
 				8527D38729B20E04007E16B1 /* ProfileCategoryCell.swift in Sources */,

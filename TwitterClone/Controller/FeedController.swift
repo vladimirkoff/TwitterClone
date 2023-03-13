@@ -11,13 +11,16 @@ import SDWebImage
 private let reuseidentifier = "TweetCell"
 
 class FeedController: UICollectionViewController, TweetCellDelegate {
+    
     func handleLikeTapped(_ cell: TweetCell) {
         guard let tweet = cell.tweet else { return }
-        
         TweetService.shared.likeTweet(tweet: tweet) { err, ref in
             cell.tweet?.didLike.toggle()
             let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
             cell.tweet?.likes = likes
+            
+            guard !tweet.didLike else { return } // only upload notif if the tweet is being liked
+            NotificationService.shared.uploadNotification(type: .like, tweet: tweet)
         }
     }
     
@@ -28,7 +31,6 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
         nav.modalPresentationStyle = .fullScreen
         present(nav, animated: true, completion: nil)
     }
-    
     func handleProfileImageTap(_ cell: TweetCell) {
         guard let user = cell.tweet?.user else { return }
         navigationController?.pushViewController(ProfileController(user: user), animated: true)
@@ -74,8 +76,6 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
         imageView.contentMode = .scaleAspectFit
         imageView.setDimensions(width: 44, height: 44)
         navigationItem.titleView = imageView
-        
-        
         
     }
     

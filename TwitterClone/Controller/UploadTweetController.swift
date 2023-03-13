@@ -49,7 +49,6 @@ class UploadTweetController: UIViewController {
     private let user: User
     private let config: UploadTweetConfiguration
     private lazy var viewModel = UploadTweetViewModel(config: config)
-    
     private let captionTextView = CaptionTextView()
     
     //MARK: - Lifecycle
@@ -71,8 +70,6 @@ class UploadTweetController: UIViewController {
         
         configureUI()
         configureNavigationBar()
-        
-        
     }
     
     
@@ -86,7 +83,9 @@ class UploadTweetController: UIViewController {
     @objc func uploadTweet() {
         guard let caption = captionTextView.text else { return }
         TweetService.shared.uploadTweet(caption: caption, type: config) { error, ref in
-            print("UPLOADED")
+            if case .reply(let tweet) = self.config {
+                NotificationService.shared.uploadNotification(type: .reply, tweet: tweet)
+            }
             self.dismiss(animated: true, completion: nil)
         }
     }
@@ -115,8 +114,6 @@ class UploadTweetController: UIViewController {
         newStack.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingTop: 16, paddingLeft: 16, paddingRight: 16)
         
         
-        
-        
         guard let url = URL(string: user.profileImageUrl) else { return }
         profileImageView.sd_setImage(with: url)
         
@@ -133,11 +130,7 @@ class UploadTweetController: UIViewController {
     
     func configureNavigationBar() {
         navigationController?.navigationBar.backgroundColor = .white
-//        navigationController?.navigationBar.isTranslucent = false
-        
         navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(cancel))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: actionButton)
     }
-
-    
 }
