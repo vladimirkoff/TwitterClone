@@ -16,10 +16,20 @@ protocol ProfileCategoryDelegate: class {
 class ProfileCategory: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
     
     
-    
+    private let underlineView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .twitterBlue
+        return view
+    }()
  
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        let cell = collectionView.cellForItem(at: indexPath)
+        let xPos = cell?.frame.origin.x ?? 0
+        UIView.animate(withDuration: 0.3) {
+            self.underlineView.frame.origin.x = xPos
+        }
         delegate?.animateSelector(self, didSelect: indexPath)
     }
     
@@ -63,6 +73,11 @@ class ProfileCategory: UIView, UICollectionViewDelegate, UICollectionViewDataSou
         collectionView.selectItem(at: selectedIndexPath, animated: true, scrollPosition: .left)
         
         
+    }
+    
+    override func layoutSubviews() {
+        addSubview(underlineView)
+        underlineView.anchor(left: leftAnchor, bottom: bottomAnchor, width: frame.width/3, height: 2)
     }
     
     required init?(coder: NSCoder) {

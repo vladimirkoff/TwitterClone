@@ -11,6 +11,7 @@ import ActiveLabel
 protocol DismissprofileDelegate {
     func dismissProfile()
     func handleEditProfileFollow(_ header: ProfileHeader)
+    func didSelectCategory(category: ProfileCategoryOptions)
 }
 
 class ProfileHeader: UICollectionReusableView {
@@ -93,11 +94,7 @@ class ProfileHeader: UICollectionReusableView {
     return label
     }()
     
-    private let underlineView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .twitterBlue
-        return view
-    }()
+   
     
     private let followingLabel: UILabel = {
         let label = UILabel()
@@ -156,8 +153,7 @@ class ProfileHeader: UICollectionReusableView {
         addSubview(profileCategory)
         profileCategory.anchor(left: leftAnchor, bottom: bottomAnchor, right: rightAnchor, height: 50)
         
-        addSubview(underlineView)
-        underlineView.anchor(left: leftAnchor, bottom: bottomAnchor, width: frame.width/3, height: 2)
+        
         
         addSubview(followStack)
         followStack.anchor(top: userInfoStack.bottomAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 12)
@@ -192,13 +188,10 @@ class ProfileHeader: UICollectionReusableView {
 }
 
 extension ProfileHeader: ProfileCategoryDelegate {
+    
     func animateSelector(_ view: ProfileCategory, didSelect indexPath: IndexPath) {
-        guard let cell = view.collectionView.cellForItem(at: indexPath) as? ProfileCategoryCell else { return }
-        
-        let xPos = cell.frame.origin.x
-        UIView.animate(withDuration: 0.3) {
-            self.underlineView.frame.origin.x = xPos
-        }
+        guard let category = ProfileCategoryOptions(rawValue: indexPath.row) else { return }
+        delegate?.didSelectCategory(category: category)
     }
     
     func configure() {
@@ -214,4 +207,5 @@ extension ProfileHeader: ProfileCategoryDelegate {
         editProfileButton.setTitle(viewModel.actionButtonTitle, for: .normal)
         
     }
+    
 }

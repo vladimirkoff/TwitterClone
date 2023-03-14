@@ -25,6 +25,15 @@ struct TweetViewModel {
         return formatter.string(from: tweet.timestamp, to: now) ??  "df"
     }
     
+    var replyText: String? {
+        guard let userName = tweet.replyingTo else { return nil }
+        return "Replying to @\(userName)"
+    }
+    
+    var shouldHideReplyLabel: Bool {
+        return !tweet.isReply
+    }
+    
     let user: User
     
     var userName: String  {
