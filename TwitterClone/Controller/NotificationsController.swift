@@ -72,7 +72,7 @@ class NotificationsController: UITableViewController {
     
     //MARK: - Selectors
     
-    @objc func handleRefresh() {
+    @objc func  handleRefresh() {
         refreshControl?.endRefreshing()
     }
     

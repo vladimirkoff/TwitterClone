@@ -34,7 +34,7 @@ class ProfileController: UICollectionViewController {
     }
     
 
-    //MARK: - Selector
+ 
     
     init(user: User) {
         self.user = user
@@ -157,13 +157,16 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
 extension ProfileController: DismissprofileDelegate {
     
     func didSelectCategory(category: ProfileCategoryOptions) {
-        print("Heree")
         self.selectedCategory = category
     }
     
     
     func handleEditProfileFollow(_ header: ProfileHeader) {
         if user.isCurrentuser {
+            let controller = EditProfileController(user: user)
+            let nav = UINavigationController(rootViewController: controller)
+            nav.modalPresentationStyle = .fullScreen
+            present(nav, animated: true, completion: nil )
             return
         }
         

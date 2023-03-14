@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		851E00A129C0748E005CA52A /* EditProfileController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851E00A029C0748E005CA52A /* EditProfileController.swift */; };
+		851E00A329C07990005CA52A /* EditProfileHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851E00A229C07990005CA52A /* EditProfileHeader.swift */; };
+		851E00A529C07E93005CA52A /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851E00A429C07E93005CA52A /* EditProfileViewModel.swift */; };
+		851E00A729C07F13005CA52A /* EditProfileCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 851E00A629C07F13005CA52A /* EditProfileCell.swift */; };
 		8527D37929B1CBDD007E16B1 /* Tweet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8527D37829B1CBDD007E16B1 /* Tweet.swift */; };
 		8527D37B29B1D199007E16B1 /* TweetCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8527D37A29B1D199007E16B1 /* TweetCell.swift */; };
 		8527D37D29B1D7CF007E16B1 /* Assets 20.35.28.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8527D37C29B1D7CF007E16B1 /* Assets 20.35.28.xcassets */; };
@@ -54,6 +58,10 @@
 /* Begin PBXFileReference section */
 		58EBBF8949AC9A242226443B /* Pods-TwitterClone.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterClone.debug.xcconfig"; path = "Target Support Files/Pods-TwitterClone/Pods-TwitterClone.debug.xcconfig"; sourceTree = "<group>"; };
 		6D80C58A65A260F2E177CAB3 /* Pods-TwitterClone.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TwitterClone.release.xcconfig"; path = "Target Support Files/Pods-TwitterClone/Pods-TwitterClone.release.xcconfig"; sourceTree = "<group>"; };
+		851E00A029C0748E005CA52A /* EditProfileController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileController.swift; sourceTree = "<group>"; };
+		851E00A229C07990005CA52A /* EditProfileHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileHeader.swift; sourceTree = "<group>"; };
+		851E00A429C07E93005CA52A /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
+		851E00A629C07F13005CA52A /* EditProfileCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileCell.swift; sourceTree = "<group>"; };
 		8527D37829B1CBDD007E16B1 /* Tweet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tweet.swift; sourceTree = "<group>"; };
 		8527D37A29B1D199007E16B1 /* TweetCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TweetCell.swift; sourceTree = "<group>"; };
 		8527D37C29B1D7CF007E16B1 /* Assets 20.35.28.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Assets 20.35.28.xcassets"; sourceTree = "<group>"; };
@@ -215,6 +223,7 @@
 				85769A9429B60CB7008E4F70 /* UploadTweetViewModel.swift */,
 				852CF57D29B7421600BDB4CA /* ActionSheetViewModel.swift */,
 				85B3868A29BF194E00A687C4 /* NotificationViewModel.swift */,
+				851E00A429C07E93005CA52A /* EditProfileViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -231,6 +240,7 @@
 				85CE239229B0D881008B7725 /* UploadTweetController.swift */,
 				8527D38029B1EB3B007E16B1 /* ProfileController.swift */,
 				85769A9029B5E7C0008E4F70 /* TweetController.swift */,
+				851E00A029C0748E005CA52A /* EditProfileController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -247,6 +257,8 @@
 				85769A9229B5E9C0008E4F70 /* TweetHeader.swift */,
 				852CF57B29B73D1300BDB4CA /* ActionSheetCell.swift */,
 				85B3868829BF130500A687C4 /* NotificationCell.swift */,
+				851E00A229C07990005CA52A /* EditProfileHeader.swift */,
+				851E00A629C07F13005CA52A /* EditProfileCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -383,6 +395,7 @@
 				8597C1AC29AFA08400C1A966 /* Utilities.swift in Sources */,
 				85BFB6BB29B37BDF0060797E /* UserCell.swift in Sources */,
 				8597C1A129AF649900C1A966 /* ChatController.swift in Sources */,
+				851E00A129C0748E005CA52A /* EditProfileController.swift in Sources */,
 				852CF57C29B73D1300BDB4CA /* ActionSheetCell.swift in Sources */,
 				8597C1A529AF6D4000C1A966 /* Extensions.swift in Sources */,
 				85B3868B29BF194E00A687C4 /* NotificationViewModel.swift in Sources */,
@@ -391,6 +404,7 @@
 				85769A9129B5E7C0008E4F70 /* TweetController.swift in Sources */,
 				8527D38329B1F34F007E16B1 /* ProfileHeader.swift in Sources */,
 				85769A9529B60CB7008E4F70 /* UploadTweetViewModel.swift in Sources */,
+				851E00A729C07F13005CA52A /* EditProfileCell.swift in Sources */,
 				8527D37B29B1D199007E16B1 /* TweetCell.swift in Sources */,
 				8597C1A829AF735500C1A966 /* LoginController.swift in Sources */,
 				85CE238D29B0BAE4008B7725 /* AuthService.swift in Sources */,
@@ -398,6 +412,7 @@
 				853D0FC929B240B100B28E0A /* ProfileHeaderViewModel.swift in Sources */,
 				85CE239129B0CE87008B7725 /* User.swift in Sources */,
 				8597C19D29AF648100C1A966 /* ExploreController.swift in Sources */,
+				851E00A329C07990005CA52A /* EditProfileHeader.swift in Sources */,
 				8597C18029AF61F500C1A966 /* SceneDelegate.swift in Sources */,
 				8597C19929AF631B00C1A966 /* MainTabController.swift in Sources */,
 				85B3868729BF0BD900A687C4 /* NotificationService.swift in Sources */,
@@ -406,6 +421,7 @@
 				85769A9329B5E9C0008E4F70 /* TweetHeader.swift in Sources */,
 				852CF57E29B7421600BDB4CA /* ActionSheetViewModel.swift in Sources */,
 				85B3868929BF130500A687C4 /* NotificationCell.swift in Sources */,
+				851E00A529C07E93005CA52A /* EditProfileViewModel.swift in Sources */,
 				8597C1AA29AF73A800C1A966 /* RegistrationController.swift in Sources */,
 				8597C19B29AF644E00C1A966 /* FeedController.swift in Sources */,
 				8527D38729B20E04007E16B1 /* ProfileCategoryCell.swift in Sources */,

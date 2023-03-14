@@ -74,6 +74,12 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
         navigationController?.navigationBar.isHidden = false
     }
     
+    //MARK: - Selectors
+    
+    @objc func handleRefresh() {
+        fetchTweets()
+    }
+    
     //MARK: - Helpers
     
     func configureUI() {
@@ -85,6 +91,10 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
         imageView.contentMode = .scaleAspectFit
         imageView.setDimensions(width: 44, height: 44)
         navigationItem.titleView = imageView
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(handleRefresh), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
         
     }
     
@@ -104,13 +114,21 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
     //MARK: - API
     
     func fetchTweets() {
+        collectionView.refreshControl?.beginRefreshing()
         TweetService.shared.fetchTweets { tweets in
-            self.tweets = tweets
+            self.tweets = tweets.sorted(by: {$0.timestamp > $1.timestamp})
+            self.checkIfUserLikedTweet( )
             
-            for (index, tweet) in tweets.enumerated() {
-                TweetService.shared.checkIfUserLikedTweet(tweet) { isLiked in
-                    guard isLiked == true else { return }
-                    
+            self.collectionView.refreshControl?.endRefreshing()
+           
+        }
+    }
+    
+    func checkIfUserLikedTweet() {
+        self.tweets.forEach { tweet in
+            TweetService.shared.checkIfUserLikedTweet(tweet) { isLiked in
+                guard isLiked == true else { return }
+                if let index = self.tweets.firstIndex(where: {$0.tweetID == tweet.tweetID}) {
                     self.tweets[index].didLike = true
                 }
             }
