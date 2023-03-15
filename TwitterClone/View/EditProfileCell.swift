@@ -7,10 +7,16 @@
 
 import UIKit
 
+protocol EditProfileCellDelegate: class {
+    func updateUserInfo(_ cell: EditProfileCell)
+}
+
 class EditProfileCell: UITableViewCell {
     //MARK: - Properties
     
-    var viewModel: EditProfileViewModel {
+    weak var delegate: EditProfileCellDelegate?
+    
+    var viewModel: EditProfileViewModel? {
         didSet {
             configure()
         }
@@ -19,7 +25,6 @@ class EditProfileCell: UITableViewCell {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
-        label.text = "Test title"
         return label
     }()
     
@@ -46,7 +51,7 @@ class EditProfileCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+   
         selectionStyle = .none
         
         contentView.addSubview(titleLabel)
@@ -58,6 +63,8 @@ class EditProfileCell: UITableViewCell {
         
         contentView.addSubview(bioTextView)
         bioTextView.anchor(top: topAnchor, left: titleLabel.rightAnchor, bottom: bottomAnchor, right: rightAnchor, paddingTop: 4, paddingLeft: 16, paddingRight: 8 )
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(handleUpdateUserInfo), name: UITextView.textDidEndEditingNotification, object: nil)
     }
     
     required init?(coder: NSCoder) {
@@ -70,11 +77,14 @@ class EditProfileCell: UITableViewCell {
         guard let viewModel = viewModel else { return }
         infoTextfield.isHidden = viewModel.shouldHideTextField
         bioTextView.isHidden = viewModel.shouldHideTextView
+        titleLabel.text = viewModel.titleText
+        infoTextfield.text = viewModel.optionValue
+        bioTextView.text = viewModel.optionValue
     }
     
     //MARK: - Selectors
     
     @objc func handleUpdateUserInfo() {
-        
+        delegate?.updateUserInfo(self)
     }
 }

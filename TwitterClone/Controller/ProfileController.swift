@@ -165,6 +165,7 @@ extension ProfileController: DismissprofileDelegate {
         if user.isCurrentuser {
             let controller = EditProfileController(user: user)
             let nav = UINavigationController(rootViewController: controller)
+            controller.delegate = self
             nav.modalPresentationStyle = .fullScreen
             present(nav, animated: true, completion: nil )
             return
@@ -204,6 +205,16 @@ extension ProfileController: DismissprofileDelegate {
         }
     }
     
+}
+
+//MARK: - EditProfileControllerDelegate
+
+extension ProfileController: EditProfileControllerDelegate {
+    func controller(_ controller: EditProfileController, wantsToUpdate user: User) {
+        controller.dismiss(animated: true, completion: nil)
+        self.user = user
+        collectionView.reloadData()
+    }
 }
 
 

@@ -9,7 +9,7 @@ import Foundation
 import FirebaseAuth
 import FirebaseDatabase
 
-typealias DatabaseCompletion = ((Error?, DatabaseReference) -> Void)  // NEW
+typealias DatabaseCompletion = (Error?, DatabaseReference) -> Void  // NEW
 
 struct UserService {
     static let shared = UserService()
@@ -84,5 +84,30 @@ struct UserService {
             guard let uid = snapshot.value as? String else { return }
             self.fetchUser(uid: uid, completion: completion)
         }
+    }
+    func safeUserData(for user: User, completion: @escaping(Error?, DatabaseReference) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let values = ["fullname": user.fullName, "username": user.userName, "bio": user.bio ?? ""]
+        
+        REF_USERS.child(uid).updateChildValues(values, withCompletionBlock: completion)
+    }
+    
+    func updateProfileImage(image: UIImage, completion: @escaping(String) -> Void) {
+        guard let imageData = image.jpegData(compressionQuality: 0.3) else { return }
+        guard let uid = Auth.auth().currentUser?.uid else { return }
+        let fileName = UUID().uuidString
+        let ref = STORAGE_PROFILE_IMAGES.child(fileName)
+        
+        ref.putData(imageData, metadata: nil) { metadata, err in
+            ref.downloadURL { url, err in
+                guard let profileImageUrl = url?.absoluteString else { return }
+                let values = ["profileImageUrl" : profileImageUrl]
+                
+                REF_USERS.child(uid).updateChildValues(values) { err, ref in
+                    completion(profileImageUrl)
+                }
+            }
+        }
+        
     }
 }

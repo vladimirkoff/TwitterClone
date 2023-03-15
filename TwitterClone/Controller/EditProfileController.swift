@@ -9,17 +9,61 @@ import UIKit
 
 private let reuseIdentifier = "EditProfileCell"
 
-class EditProfileController: UITableViewController, EditProfileHeaderDelegate {
+protocol EditProfileControllerDelegate: class {
+    func controller(_ controller: EditProfileController, wantsToUpdate user: User)
+}
+
+class EditProfileController: UITableViewController, EditProfileHeaderDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate, EditProfileCellDelegate {
+    
+    weak var delegate: EditProfileControllerDelegate?
+    
+    private var imageChanged: Bool {
+        return selectedImage != nil
+    }
+     
+    func updateUserInfo(_ cell: EditProfileCell) {
+        userInflChanged = true
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        guard let viewModel = cell.viewModel else { return }
+        
+        switch viewModel.option {
+        case .fullname:
+            guard let fullname = cell.infoTextfield.text else { return }
+            user.fullName = fullname
+        case .username:
+            guard let username = cell.infoTextfield.text else { return }
+            user.userName = username
+        case .bio:
+            user.bio = cell.bioTextView.text
+            
+        }
+        
+    }
+    
     
     
     func handleChangeProfilePhoto() {
-        print("DEBUG: change photo tapped")
+        present(imagePicker, animated: true, completion: nil)
     }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        self.selectedImage = image
+        dismiss(animated: true,completion: nil)
+    }
+    
+    private var selectedImage: UIImage? {
+        didSet {
+            headerView.profileImageView.image = selectedImage
+        }
+    }
+    
+    private var userInflChanged = false
     
     //MARK: - Properties
     
-    private let user: User
-    
+    private var user: User
+    private let imagePicker = UIImagePickerController()
     private lazy var headerView = EditProfileHeader(user: user) // lazy because we use user property
     
     
@@ -37,6 +81,8 @@ class EditProfileController: UITableViewController, EditProfileHeaderDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        imagePicker.delegate = self
+        imagePicker.allowsEditing = true
         tableView.register(EditProfileCell.self, forCellReuseIdentifier: reuseIdentifier)
         configureNavigationBar()
         configureTableView()
@@ -49,10 +95,42 @@ class EditProfileController: UITableViewController, EditProfileHeaderDelegate {
     }
     
     @objc func didTapDone() {
-        self.dismiss(animated: true, completion: nil)
+        view.endEditing(true )
+        guard imageChanged || userInflChanged else { return }
+        updateUserData()
     }
     
+
+    
     //MARK: - API
+    
+    func updateUserData() {
+        if imageChanged && !userInflChanged {
+            updateProfileImage()
+        }
+        
+        if userInflChanged && !imageChanged {
+            UserService.shared.safeUserData(for: user) { err, ref in
+                self.delegate?.controller(self, wantsToUpdate: self.user)
+            }
+        }
+        
+        if userInflChanged && imageChanged {
+            UserService.shared.safeUserData(for: user) { err, ref in
+                self.updateProfileImage()
+            }
+        }
+        
+        
+    }
+    
+    func updateProfileImage() {
+        guard let image = selectedImage else { return }
+        UserService.shared.updateProfileImage(image: image) { url in
+            self.user.profileImageUrl = url
+            self.delegate?.controller(self, wantsToUpdate: self.user)
+        }
+    }
     
     //MARK: - Helpers
     
@@ -89,6 +167,7 @@ extension EditProfileController {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! EditProfileCell
         guard let option = EditProfileOptions(rawValue: indexPath.row) else { return cell }
         cell.viewModel = EditProfileViewModel(user: user, option: option)
+        cell.delegate = self
         return cell
     }
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
