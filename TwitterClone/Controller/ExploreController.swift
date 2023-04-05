@@ -31,10 +31,9 @@ class ExploreController: UITableViewController {
     private let searchController = UISearchController(searchResultsController: nil)
     
     //MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         configureUI()
         fetchUsers()
         configureSearchController()
@@ -77,6 +76,8 @@ class ExploreController: UITableViewController {
     }
 }
 
+//MARK: - UITableViewDelegate & DataSource
+
 extension ExploreController {
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return inSearchMode ? filteredUsers.count : users.count
@@ -97,6 +98,8 @@ extension ExploreController {
         navigationController?.pushViewController(cotnroller, animated: true)
     }
 }
+
+//MARK: - UISearchResultsUpdating
 
 extension ExploreController: UISearchResultsUpdating {  // gets called every time the search bar is changed, so it monitors the changes
     func updateSearchResults(for searchController: UISearchController) {

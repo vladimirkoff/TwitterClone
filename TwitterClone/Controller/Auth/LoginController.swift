@@ -17,14 +17,8 @@ class LoginController: UIViewController {
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
         iv.image = UIImage(named: "TwitterLogo")
-        
-        
-        
-        
         return iv
     }()
-    
-    
     
     private lazy var emailView: UIView = {
         let view = UIView()
@@ -43,7 +37,6 @@ class LoginController: UIViewController {
         dividerView.backgroundColor = .white
         view.addSubview(dividerView)
         dividerView.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingLeft: 8, height: 0.75)
-        
         
         return view
     }()
@@ -109,30 +102,25 @@ class LoginController: UIViewController {
             if let error = error {
                 print("Error - \(error.localizedDescription)")
             } else {
-                
-               
-                    AuthService.shared.logUserIn(withEmail: email, withPassword: password) { error, ref in
-                        print("Here")
-                        if let error = error {
-                            print(error.localizedDescription)
-                            return
-                        }
-                        guard let window = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else {
-                            return
-                        }
-                        
-                        guard let tab = window.rootViewController as? MainTabController
-                        else { return }
-                        
-                        tab.authenticateUser()
-                        
-                        self.dismiss(animated: true, completion: nil)
-                        
-                       
+                AuthService.shared.logUserIn(withEmail: email, withPassword: password) { error, ref in
+                    print("Here")
+                    if let error = error {
+                        print(error.localizedDescription)
+                        return
                     }
-                  
-                
-                
+                    guard let window = UIApplication.shared.windows.first(where: {$0.isKeyWindow}) else {
+                        return
+                    }
+                    
+                    guard let tab = window.rootViewController as? MainTabController
+                    else { return }
+                    
+                    tab.authenticateUser()
+                    
+                    self.dismiss(animated: true, completion: nil)
+                    
+                    
+                }
             }
         }
         
@@ -146,20 +134,16 @@ class LoginController: UIViewController {
     
     
     //MARK: - Lifecycle
-    
+      
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
     }
-    
-    
-    
-   
-    //MARK: - Helper
+    //MARK: - Helpers
     
     func configureUI() {
         view.backgroundColor = .twitterBlue
-        navigationController?.navigationBar.barStyle = .black // changes tint color of time to white
+        navigationController?.navigationBar.barStyle = .black 
         navigationController?.navigationBar.isHidden = true
         
         view.addSubview(logo)
@@ -176,5 +160,4 @@ class LoginController: UIViewController {
         view.addSubview(dontHaveAnAccountButton)
         dontHaveAnAccountButton.anchor(left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingLeft: 40, paddingBottom: 16, paddingRight: 40)
     }
-   
 }

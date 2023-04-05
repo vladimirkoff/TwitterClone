@@ -13,44 +13,22 @@ protocol EditProfileControllerDelegate: class {
     func controller(_ controller: EditProfileController, wantsToUpdate user: User)
 }
 
-class EditProfileController: UITableViewController, EditProfileHeaderDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate, EditProfileCellDelegate {
+class EditProfileController: UITableViewController, EditProfileHeaderDelegate, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
+    
+    //MARK: - Properties
     
     weak var delegate: EditProfileControllerDelegate?
+    
+    private var user: User
+    private let imagePicker = UIImagePickerController()
+    private lazy var headerView = EditProfileHeader(user: user) // lazy because we use user property
     
     private var imageChanged: Bool {
         return selectedImage != nil
     }
-     
-    func updateUserInfo(_ cell: EditProfileCell) {
-        userInflChanged = true
-        navigationItem.rightBarButtonItem?.isEnabled = true
-        guard let viewModel = cell.viewModel else { return }
-        
-        switch viewModel.option {
-        case .fullname:
-            guard let fullname = cell.infoTextfield.text else { return }
-            user.fullName = fullname
-        case .username:
-            guard let username = cell.infoTextfield.text else { return }
-            user.userName = username
-        case .bio:
-            user.bio = cell.bioTextView.text
-            
-        }
-        
-    }
     
     
     
-    func handleChangeProfilePhoto() {
-        present(imagePicker, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let image = info[.editedImage] as? UIImage else { return }
-        self.selectedImage = image
-        dismiss(animated: true,completion: nil)
-    }
     
     private var selectedImage: UIImage? {
         didSet {
@@ -59,13 +37,6 @@ class EditProfileController: UITableViewController, EditProfileHeaderDelegate, U
     }
     
     private var userInflChanged = false
-    
-    //MARK: - Properties
-    
-    private var user: User
-    private let imagePicker = UIImagePickerController()
-    private lazy var headerView = EditProfileHeader(user: user) // lazy because we use user property
-    
     
     
     //MARK: - Lifecycle
@@ -100,8 +71,6 @@ class EditProfileController: UITableViewController, EditProfileHeaderDelegate, U
         updateUserData()
     }
     
-
-    
     //MARK: - API
     
     func updateUserData() {
@@ -120,8 +89,6 @@ class EditProfileController: UITableViewController, EditProfileHeaderDelegate, U
                 self.updateProfileImage()
             }
         }
-        
-        
     }
     
     func updateProfileImage() {
@@ -134,33 +101,46 @@ class EditProfileController: UITableViewController, EditProfileHeaderDelegate, U
     
     //MARK: - Helpers
     
-    private func configureNavigationBar() {
-    if #available(iOS 15.0, *) {
-    let appearance = UINavigationBarAppearance()
-    appearance.configureWithOpaqueBackground()
-    appearance.backgroundColor = .twitterBlue
-    appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
-    navigationController?.navigationBar.standardAppearance = appearance
-    navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
-     
-    } else {
-    navigationController?.navigationBar.barTintColor = .twitterBlue
+    
+    func handleChangeProfilePhoto() {
+        present(imagePicker, animated: true, completion: nil)
     }
-    navigationController?.navigationBar.tintColor = .white
-    navigationController?.navigationBar.isTranslucent = false
-     
-    navigationItem.title = "Edit Profile"
-    navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
-    navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDone))
-    navigationItem.rightBarButtonItem?.isEnabled = false
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let image = info[.editedImage] as? UIImage else { return }
+        self.selectedImage = image
+        dismiss(animated: true,completion: nil)
+    }
+    
+    private func configureNavigationBar() {
+        if #available(iOS 15.0, *) {
+            let appearance = UINavigationBarAppearance()
+            appearance.configureWithOpaqueBackground()
+            appearance.backgroundColor = .twitterBlue
+            appearance.titleTextAttributes = [.foregroundColor: UIColor.white]
+            navigationController?.navigationBar.standardAppearance = appearance
+            navigationController?.navigationBar.scrollEdgeAppearance = navigationController?.navigationBar.standardAppearance
+            
+        } else {
+            navigationController?.navigationBar.barTintColor = .twitterBlue
+        }
+        navigationController?.navigationBar.tintColor = .white
+        navigationController?.navigationBar.isTranslucent = false
+        
+        navigationItem.title = "Edit Profile"
+        navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(didTapCancel))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDone))
+        navigationItem.rightBarButtonItem?.isEnabled = false
     }
     func configureTableView() {
         tableView.tableHeaderView = headerView
         headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 180)
         tableView.tableFooterView = UIView()  // eliminates extra separating lines
-        headerView.delegate = self 
+        headerView.delegate = self
     }
 }
+
+//MARK: - UITableViewDelegate
 
 extension EditProfileController {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -176,6 +156,29 @@ extension EditProfileController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         guard let option = EditProfileOptions(rawValue: indexPath.row) else { return 0 }
         return option == .bio ? 100 : 48
+    }
+}
+
+//MARK: - EditProfileCellDelegate
+
+extension EditProfileController: EditProfileCellDelegate {
+    func updateUserInfo(_ cell: EditProfileCell) {
+        userInflChanged = true
+        navigationItem.rightBarButtonItem?.isEnabled = true
+        guard let viewModel = cell.viewModel else { return }
+        
+        switch viewModel.option {
+        case .fullname:
+            guard let fullname = cell.infoTextfield.text else { return }
+            user.fullName = fullname
+        case .username:
+            guard let username = cell.infoTextfield.text else { return }
+            user.userName = username
+        case .bio:
+            user.bio = cell.bioTextView.text
+            
+        }
+        
     }
 }
 

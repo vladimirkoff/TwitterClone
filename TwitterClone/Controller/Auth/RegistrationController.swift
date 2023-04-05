@@ -165,33 +165,22 @@ class RegistrationController: UIViewController {
     }
     
     @objc func signupButtonPressed() {
-        guard let profileImage = profileImage else {
-            print("Select image")
-            return
-        }
+        guard let profileImage = profileImage else { return }
         guard let email = emailField.text else {return}
         guard let password = passwordField.text else {return}
         guard let fullName = fullNameField.text else {return}
         guard let userName = UsernameField.text?.lowercased() else {return}
-        
-        
-        
-       
         
         AuthService.shared.registeruser(parameters: AuthParameters(email: email, password: password, userName: userName, fullName: fullName, profileImage: self.profileImage!)) { error, ref in
             if let error = error {
                 print(error.localizedDescription)
                 return
             }
-            print("SUCCESSFUL")
+            print("SUCCESS")
         }
-        
-        
-        
     }
     
-    
-    //MARK: - Lifecycle
+        //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -199,10 +188,7 @@ class RegistrationController: UIViewController {
         
     }
     
-    
-    
-   
-    //MARK: - Helper
+    //MARK: - Helpers
     
     func configureUI() {
         
@@ -240,12 +226,6 @@ extension RegistrationController: UIImagePickerControllerDelegate, UINavigationC
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         guard let profileImage = info[.editedImage] as? UIImage else { return }
         self.profileImage = profileImage
-        
-        
-        
-        
-        
-        
         
         addProfileImage.layer.cornerRadius = 150 / 2
         addProfileImage.layer.masksToBounds = true

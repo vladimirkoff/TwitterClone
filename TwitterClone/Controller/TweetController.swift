@@ -25,7 +25,6 @@ class TweetController: UICollectionViewController {
     
     init(tweet: Tweet) {
         self.tweet = tweet
-//        self.actionSheet = ActionSheetLauncher(user: tweet.user)
         super.init(collectionViewLayout: UICollectionViewFlowLayout())
     }
     
@@ -64,6 +63,8 @@ class TweetController: UICollectionViewController {
     }
 }
 
+//MARK: - UICollectionViewDelegate
+
 extension TweetController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return replies.count
@@ -74,6 +75,8 @@ extension TweetController {
         return cell
     }
 }
+
+//MARK: - UICollectionViewDelegateFlowLayout
 
 extension TweetController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
@@ -96,6 +99,8 @@ extension TweetController: UICollectionViewDelegateFlowLayout {
     
 }
 
+//MARK: - TweetHeaderDelegate
+
 extension TweetController: TweetHeaderDelegate {
     func showActionSheet() {
         if tweet.user.isCurrentuser {
@@ -113,6 +118,8 @@ extension TweetController: TweetHeaderDelegate {
         }
     }
 }
+
+//MARK: - ActionSheetDelegate
 
 extension TweetController: ActionSheetDelegate {
     func didSelect(option: ActionSheetOptions) {

@@ -18,12 +18,9 @@ struct AuthParameters {
     let profileImage: UIImage
 }
 
-
 struct AuthService {
     
     static let shared = AuthService()  // singelton
-    
-    
     
     func registeruser(parameters: AuthParameters, completion: @escaping(Error?, DatabaseReference) -> Void ) {
         
@@ -62,11 +59,6 @@ struct AuthService {
                         }
                     }
                 }
-                
-                
-                
-                
-                
             }
             print("SUCCESS")
         }
@@ -80,8 +72,5 @@ struct AuthService {
             }
             print("SUCCESS")
         }
-     
     }
-    
-    
 }

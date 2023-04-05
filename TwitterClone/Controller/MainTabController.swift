@@ -10,6 +10,10 @@ import FirebaseAuth
 
 class MainTabController: UITabBarController {
     
+    
+    
+    //MARK: - Properties
+    
     var user: User? {
         didSet {
             guard let nav = viewControllers?[0] as? UINavigationController else { return }
@@ -19,8 +23,6 @@ class MainTabController: UITabBarController {
             feed.user = user
         }
     }
-    
-    //MARK: - Properties
     
     let actionButton: UIButton = {
         let button = UIButton(type: .system)
@@ -32,34 +34,19 @@ class MainTabController: UITabBarController {
     }()
     
     //MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-  
-        
         view.backgroundColor = .twitterBlue
-        
         authenticateUser()
-        
-        
-        self.tabBar.backgroundColor = .white
+        tabBar.backgroundColor = .white
         
     }
     
     //MARK: - Helpers
     
     func configureUI() {
-        
         view.addSubview(actionButton)
-//        actionButton.translatesAutoresizingMaskIntoConstraints = false // activates layout programatically
-//        actionButton.heightAnchor.constraint(equalToConstant: 56).isActive = true // sets constraint for height
-//        actionButton.widthAnchor.constraint(equalToConstant: 56).isActive = true // sets constraint for width
-//        actionButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -64).isActive = true // sets constraint for bottom
-//        actionButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16).isActive = true // sets constraint for right side
-//        actionButton.layer.cornerRadius = 56 / 2  // rounds the button
-        
-        // equal
-        
         actionButton.anchor( bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, paddingBottom: 64, paddingRight: 16, width: 56, height: 56 )
         actionButton.layer.cornerRadius = 56 / 2
         
@@ -79,7 +66,6 @@ class MainTabController: UITabBarController {
         
         let chat = ChatController()
         let nav4 = templateNavigationController(image: UIImage(named: "ic_mail_outline_white_2x-1"), rootVC: chat)
-        
         
         viewControllers = [nav1, nav2, nav3, nav4]  // we are setting the assosiated tab bat items
         
@@ -133,8 +119,4 @@ class MainTabController: UITabBarController {
             print("error")
         }
     }
-
-    
-
-
 }

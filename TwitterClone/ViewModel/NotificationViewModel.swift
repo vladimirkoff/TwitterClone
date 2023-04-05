@@ -8,6 +8,7 @@
 import UIKit
 
 struct NotificationViewModel {
+    
     private let notification: Notification
     private let type: NotificationType
     private let user: User
@@ -24,14 +25,12 @@ struct NotificationViewModel {
     
     var notificationMessage: String {
         switch type {
-            
         case .follow: return "Started following you"
         case .like: return "Liked your tweet"
         case .reply: return "Replied to tweet"
         case .retweet: return "Retweeted tweet"
         case .comment: return "Commented your tweet"
         case .mention: return "Mentioned you"
-            
         }
     }
     
@@ -40,7 +39,6 @@ struct NotificationViewModel {
     }
     
     var notificationText: NSAttributedString? {
-        
         let title = NSMutableAttributedString(string: user.fullName, attributes: [.font : UIFont.boldSystemFont(ofSize: 14) ])
         title.append(NSAttributedString(string: " \(notificationMessage) ", attributes: [.font : UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.lightGray]))
         title.append(NSAttributedString(string: timestamp, attributes: [.font : UIFont.systemFont(ofSize: 14), .foregroundColor: UIColor.lightGray]))
@@ -61,5 +59,4 @@ struct NotificationViewModel {
         self.type = notification.type
         self.user = notification.user
     }
-        
 }

@@ -15,8 +15,6 @@ protocol DismissprofileDelegate {
 }
 
 class ProfileHeader: UICollectionReusableView {
-    
-   
     //MARK: - Properties
     
     private let profileCategory = ProfileCategory()
@@ -30,91 +28,79 @@ class ProfileHeader: UICollectionReusableView {
     }
     
     private lazy var containerView: UIView = {
-    let view = UIView()
-    view.backgroundColor = .twitterBlue
-    view.addSubview(backButton)
-    backButton.anchor(top: view.topAnchor, left: view.leftAnchor, paddingTop: 42, paddingLeft: 16)
-        
-        
-    profileCategory.delegate = self
-        
-    return view
+        let view = UIView()
+        view.backgroundColor = .twitterBlue
+        view.addSubview(backButton)
+        backButton.anchor(top: view.topAnchor, left: view.leftAnchor, paddingTop: 42, paddingLeft: 16)
+        profileCategory.delegate = self
+        return view
     }()
     
     private let fullNameLabel: UILabel = {
-    let label = UILabel()
-    label.font = UIFont.systemFont(ofSize: 20)
-    return label
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20)
+        return label
     }()
     
     private let userNamelabel: UILabel = {
-    let label = UILabel()
-    label.font = UIFont.systemFont(ofSize: 16)
-    label.textColor = .lightGray
-    return label
-    }()
-
-    private lazy var backButton: UIButton = {
-    let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "baseline_arrow_back_white_24dp"), for: .normal)
-    button.addTarget(self, action: #selector(goBack), for: .touchUpInside)
-    return button
-    }()
-
-    private lazy var profileImageView: UIImageView = {
-    let iv = UIImageView()
-    iv.contentMode = .scaleToFill
-    iv.clipsToBounds = true
-    iv.layer.cornerRadius = 24
-    iv.backgroundColor = .lightGray
-    iv.layer.borderColor = UIColor.white.cgColor
-    iv.layer.borderWidth = 4
-    return iv
-    }()
-
-    lazy var editProfileButton: UIButton = {
-    let button = UIButton(type: .system)
-    button.backgroundColor = .white
-//    button.setTitle("Loading", for: .normal)
-    button.layer.borderColor = UIColor.twitterBlue.cgColor
-    button.layer.borderWidth = 1.25
-    button.layer.cornerRadius = 36 / 2
-    button.titleLabel?.textAlignment = .center
-    button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
-    button.setTitleColor(.twitterBlue, for: .normal)
-    button.addTarget(self, action: #selector(followButtonPressed), for: .touchUpInside)
-    return button
-    }()
-
-    private let bioLabel: UILabel = {
-    let label = UILabel()
-    label.font = UIFont.systemFont(ofSize: 16)
-    label.numberOfLines = 3
-    label.text = "This is a user bio that will span more than one line for test purposes"
-    return label
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .lightGray
+        return label
     }()
     
-   
+    private lazy var backButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "baseline_arrow_back_white_24dp"), for: .normal)
+        button.addTarget(self, action: #selector(goBack), for: .touchUpInside)
+        return button
+    }()
+    
+    private lazy var profileImageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleToFill
+        iv.clipsToBounds = true
+        iv.layer.cornerRadius = 24
+        iv.backgroundColor = .lightGray
+        iv.layer.borderColor = UIColor.white.cgColor
+        iv.layer.borderWidth = 4
+        return iv
+    }()
+    
+    lazy var editProfileButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .white
+        button.layer.borderColor = UIColor.twitterBlue.cgColor
+        button.layer.borderWidth = 1.25
+        button.layer.cornerRadius = 36 / 2
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        button.setTitleColor(.twitterBlue, for: .normal)
+        button.addTarget(self, action: #selector(followButtonPressed), for: .touchUpInside)
+        return button
+    }()
+    
+    private let bioLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.numberOfLines = 3
+        return label
+    }()
     
     private let followingLabel: UILabel = {
         let label = UILabel()
-        
+
         let followTap = UIGestureRecognizer(target: self, action: #selector(followingTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(followTap)
-        label.text = "0 Following"
-        
         return label
     }()
     
     private let followersLabel: UILabel = {
         let label = UILabel()
-        
         let followersTap = UIGestureRecognizer(target: self, action: #selector(followersTapped))
         label.isUserInteractionEnabled = true
         label.addGestureRecognizer(followersTap)
-        label.text = "0 Followers"
-        
         return label
     }()
     
@@ -157,16 +143,13 @@ class ProfileHeader: UICollectionReusableView {
         
         addSubview(followStack)
         followStack.anchor(top: userInfoStack.bottomAnchor, left: leftAnchor, paddingTop: 8, paddingLeft: 12)
-        
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    //MARK: - Helper
-    
-    //MARK: - Selector
+    //MARK: - Selectors
     
     @objc func goBack() {
         delegate?.dismissProfile()
@@ -183,9 +166,9 @@ class ProfileHeader: UICollectionReusableView {
     @objc func followersTapped() {
         print("Followers tapped")
     }
-    
-    
 }
+
+//MARK: - ProfileCategoryDelegate
 
 extension ProfileHeader: ProfileCategoryDelegate {
     

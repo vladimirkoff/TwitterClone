@@ -9,9 +9,10 @@ import Foundation
 import FirebaseAuth
 import FirebaseDatabase
 
-typealias DatabaseCompletion = (Error?, DatabaseReference) -> Void  // NEW
+typealias DatabaseCompletion = (Error?, DatabaseReference) -> Void
 
 struct UserService {
+    
     static let shared = UserService()
     
     func fetchUser(uid: String, completion: @escaping(User) -> Void) {
@@ -31,7 +32,7 @@ struct UserService {
             let uid = snapshot.key
             
             guard let dictionary = snapshot.value as? [String : AnyObject] else { return }
-                    
+            
             let user = User(uid: uid, dictionary: dictionary)
             users.append(user)
             completion(users)
@@ -56,7 +57,6 @@ struct UserService {
                 completion(error, ref)
             }
         }
-
     }
     
     func checkIfFollowed(_ uid: String, completion: @escaping(Bool) -> Void) {
@@ -67,6 +67,7 @@ struct UserService {
             completion(snapshot.exists())  // if child exists - true, else - false
         }
     }
+    
     func fetchUserStats(uid: String, completion: @escaping(UserStats) -> Void) {
         REF_USER_FOLLOWERS.child(uid).observeSingleEvent(of: .value) { snapshot in
             let followers = snapshot.children.allObjects.count
@@ -79,12 +80,14 @@ struct UserService {
             }
         }
     }
+    
     func fetchUserWithUsername(with username: String, completion: @escaping(User) -> Void) {
         REF_USER_USERNAMES.child(username).observeSingleEvent(of: .value) { snapshot in
             guard let uid = snapshot.value as? String else { return }
             self.fetchUser(uid: uid, completion: completion)
         }
     }
+    
     func safeUserData(for user: User, completion: @escaping(Error?, DatabaseReference) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
         let values = ["fullname": user.fullName, "username": user.userName, "bio": user.bio ?? ""]

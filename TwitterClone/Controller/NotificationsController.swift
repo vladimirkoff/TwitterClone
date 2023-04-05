@@ -13,8 +13,6 @@ class NotificationsController: UITableViewController {
     
     //MARK: - Properties
     
-    
-    
     private var notifications = [Notification]() {
         didSet {
             tableView.reloadData()
@@ -29,7 +27,7 @@ class NotificationsController: UITableViewController {
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.barStyle = .default
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -78,11 +76,6 @@ class NotificationsController: UITableViewController {
     
 }
 
-
-
-
-
-
 //MARK: - UITableViewDataSource and Delegate
 
 extension NotificationsController {
@@ -121,6 +114,8 @@ extension NotificationsController: NotificationCellDelegate {
         navigationController?.pushViewController(controller, animated: true)
     }
 }
+
+//MARK: - UITableView
 
 extension NotificationsController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

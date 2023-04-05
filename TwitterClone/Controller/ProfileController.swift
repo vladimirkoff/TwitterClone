@@ -25,6 +25,7 @@ class ProfileController: UICollectionViewController {
     private var tweets = [Tweet]()
     private var likedTweets = [Tweet]()
     private var replies = [Tweet]()
+    
     private var currentDataSource: [Tweet] {
         switch selectedCategory {
         case .tweets: return tweets
@@ -33,8 +34,25 @@ class ProfileController: UICollectionViewController {
         }
     }
     
-
- 
+    //MARK: - Lifecycle
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        fetchTweets()
+        fetchReplies()
+        configureUI()
+        fetchLikedTweets()
+        checkIfUserIsFollowed()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(true)
+        
+        navigationController?.navigationBar.barStyle = .black
+        navigationController?.navigationBar.isHidden = true
+    }
     
     init(user: User) {
         self.user = user
@@ -45,7 +63,7 @@ class ProfileController: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-   
+    
     
     //MARK: - Helpers
     
@@ -65,25 +83,7 @@ class ProfileController: UICollectionViewController {
         collectionView.contentInset.bottom = tabHeight
     }
     
-    //MARK: - Lifecycle
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        fetchTweets()
-        fetchReplies()
-        configureUI()
-        fetchLikedTweets()
-        checkIfUserIsFollowed()
-   
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(true)
-        
-        navigationController?.navigationBar.barStyle = .black
-        navigationController?.navigationBar.isHidden = true
-    }
+
     
 }
 
@@ -153,6 +153,8 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     }
     
 }
+
+//MARK: - DismissprofileDelegate
 
 extension ProfileController: DismissprofileDelegate {
     

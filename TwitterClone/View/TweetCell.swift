@@ -17,8 +17,6 @@ protocol TweetCellDelegate: class {
 }
 
 class TweetCell: UICollectionViewCell {
-    
-    
     //MARK: - Properties
     
     var tweet: Tweet? {
@@ -70,7 +68,7 @@ class TweetCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .lightGray
         label.font = UIFont.systemFont(ofSize: 12)
-
+        
         return label
     }()
     

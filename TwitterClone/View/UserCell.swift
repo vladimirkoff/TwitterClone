@@ -33,19 +33,19 @@ class UserCell: UITableViewCell {
     }()
     
     private let fullNameLabel: UILabel = {
-    let label = UILabel()
-    label.font = UIFont.systemFont(ofSize: 20)
-    label.text = "Vladimir Kovalev"
-    return label
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 20)
+        label.text = "Vladimir Kovalev"
+        return label
     }()
     
     private let userNamelabel: UILabel = {
-    let label = UILabel()
-    label.font = UIFont.systemFont(ofSize: 16)
-    label.textColor = .lightGray
-    label.text = "@dfjknkv"
-
-    return label
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16)
+        label.textColor = .lightGray
+        label.text = "@dfjknkv"
+        
+        return label
     }()
     
     //MARK: - Lifecycle

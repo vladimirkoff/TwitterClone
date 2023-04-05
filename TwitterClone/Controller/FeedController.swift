@@ -10,41 +10,9 @@ import SDWebImage
 
 private let reuseidentifier = "TweetCell"
 
-class FeedController: UICollectionViewController, TweetCellDelegate {
+class FeedController: UICollectionViewController {
     
-    func fetchUser(with username: String) {
-        UserService.shared.fetchUserWithUsername(with: username) { user in
-            print(user.userName)
-            let controller = ProfileController(user: user)
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
-    }
-    
-    
-    func handleLikeTapped(_ cell: TweetCell) {
-        guard let tweet = cell.tweet else { return }
-        TweetService.shared.likeTweet(tweet: tweet) { err, ref in
-            cell.tweet?.didLike.toggle()
-            let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
-            cell.tweet?.likes = likes
-            
-            guard !tweet.didLike else { return } // only upload notif if the tweet is being liked
-            NotificationService.shared.uploadNotification(type: .like, tweet: tweet)
-        }
-    }
-    
-    func handleReplyTapped(_ cell: TweetCell) {
-        guard let tweet = cell.tweet else { return }
-        let controller = UploadTweetController(user: tweet.user, config: .reply(tweet))
-        let nav = UINavigationController(rootViewController: controller)
-        nav.modalPresentationStyle = .fullScreen
-        present(nav, animated: true, completion: nil)
-    }
-    func handleProfileImageTap(_ cell: TweetCell) {
-        guard let user = cell.tweet?.user else { return }
-        navigationController?.pushViewController(ProfileController(user: user), animated: true)
-
-    }
+    //MARK: - Properties
     
     var user: User? {
         didSet {
@@ -58,11 +26,18 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
         }
     }
     
+    //MARK: - API
     
-    //MARK: - Properties
+    func fetchUser(with username: String) {
+        UserService.shared.fetchUserWithUsername(with: username) { user in
+            print(user.userName)
+            let controller = ProfileController(user: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
     
     //MARK: - Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -73,6 +48,8 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
     }
+    
+    
     
     //MARK: - Selectors
     
@@ -120,7 +97,7 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
             self.checkIfUserLikedTweet( )
             
             self.collectionView.refreshControl?.endRefreshing()
-           
+            
         }
     }
     
@@ -137,6 +114,8 @@ class FeedController: UICollectionViewController, TweetCellDelegate {
     
 }
 
+//MARK: - UICollectionViewDelegate
+
 extension FeedController {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return tweets.count
@@ -148,6 +127,8 @@ extension FeedController {
         return cell
     }
 }
+
+//MARK: - UICollectionViewDelegateFlowLayout
 
 extension FeedController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -163,8 +144,37 @@ extension FeedController: UICollectionViewDelegateFlowLayout {
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    
 }
+
+//MARK: - TweetCellDelegate
+
+extension FeedController: TweetCellDelegate {
+    func handleLikeTapped(_ cell: TweetCell) {
+        guard let tweet = cell.tweet else { return }
+        TweetService.shared.likeTweet(tweet: tweet) { err, ref in
+            cell.tweet?.didLike.toggle()
+            let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
+            cell.tweet?.likes = likes
+            
+            guard !tweet.didLike else { return } // only upload notif if the tweet is being liked
+            NotificationService.shared.uploadNotification(type: .like, tweet: tweet)
+        }
+    }
+    
+    func handleReplyTapped(_ cell: TweetCell) {
+        guard let tweet = cell.tweet else { return }
+        let controller = UploadTweetController(user: tweet.user, config: .reply(tweet))
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    func handleProfileImageTap(_ cell: TweetCell) {
+        guard let user = cell.tweet?.user else { return }
+        navigationController?.pushViewController(ProfileController(user: user), animated: true)
+        
+    }
+}
+
 
 
 

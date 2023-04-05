@@ -33,22 +33,21 @@ class TweetHeader: UICollectionReusableView {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(goToUserProfile))
         iv.addGestureRecognizer(gestureRecognizer)
         
-        
         return iv
     }()
     
-        private let fullNameLabel: UILabel = {
+    private let fullNameLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 16)
         return label
-        }()
+    }()
     
-        private let userNamelabel: UILabel = {
+    private let userNamelabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .lightGray
         return label
-        }()
+    }()
     
     private let captionLabel: UILabel = {
         let label = UILabel()
@@ -127,14 +126,12 @@ class TweetHeader: UICollectionReusableView {
         return button
     }()
     
-  
-    
     //MARK: - Lifecycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = .white
-
+        
         let stack = UIStackView(arrangedSubviews: [fullNameLabel, userNamelabel])  // order makes sense ( first - the highest )
         stack.axis = .vertical
         stack.spacing = -6
@@ -165,8 +162,6 @@ class TweetHeader: UICollectionReusableView {
         addSubview(actionStack)
         actionStack.centerX(inView: self)
         actionStack.anchor(bottom: bottomAnchor, paddingBottom: 12)
-       
-        
     }
     
     required init?(coder: NSCoder) {
@@ -199,17 +194,14 @@ class TweetHeader: UICollectionReusableView {
         print("shareTapped")
     }
     
-    
-    
     //MARK: - Helpers
     
     func configure() {
-        print(tweet)
         guard let tweet = self.tweet else { return }
         
         
         let viewModel = TweetViewModel(tweet: tweet)
-    
+        
         captionLabel.text = tweet.caption
         userNamelabel.text = viewModel.userName
         fullNameLabel.text = tweet.user.fullName
@@ -220,8 +212,6 @@ class TweetHeader: UICollectionReusableView {
         
         likeButton.setImage(viewModel.likeBittonImage, for: .normal)
         likeButton.tintColor = viewModel.likeButtonTintColor
-        
-
     }
     
     func createButton(withImageName imageName: String) -> UIButton {

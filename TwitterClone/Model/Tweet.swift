@@ -35,5 +35,4 @@ struct Tweet {
             self.replyingTo = replyingTo
         }
     }
-    
 }

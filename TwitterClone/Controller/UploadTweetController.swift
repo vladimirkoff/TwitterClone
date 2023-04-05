@@ -57,7 +57,7 @@ class UploadTweetController: UIViewController {
         self.config = config
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -69,7 +69,7 @@ class UploadTweetController: UIViewController {
         
         configureUI()
         configureNavigationBar()
-        handleMentionTap() 
+        handleMentionTap()
     }
     
     
@@ -89,9 +89,6 @@ class UploadTweetController: UIViewController {
             self.dismiss(animated: true, completion: nil)
         }
     }
-    
-    
-    //MARK: - API
     
     //MARK: - Helpers
     
@@ -123,8 +120,8 @@ class UploadTweetController: UIViewController {
         replyLabel.isHidden = !viewModel.shouldShowReply
         
         guard let replyText = viewModel.replyText else { return }
-                
-                replyLabel.text = replyText
+        
+        replyLabel.text = replyText
         
     }
     

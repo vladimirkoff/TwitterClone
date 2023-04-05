@@ -13,7 +13,7 @@ protocol ActionSheetDelegate {
     func didSelect(option: ActionSheetOptions)
 }
 
-class ActionSheetLauncher: NSObject, UITableViewDelegate, UITableViewDataSource {
+class ActionSheetLauncher: NSObject {
     
     
     
@@ -61,6 +61,8 @@ class ActionSheetLauncher: NSObject, UITableViewDelegate, UITableViewDataSource 
         return button
     }()
     
+    //MARK: - Lifecycle
+    
     
      init(user: User) {
         self.user = user
@@ -78,6 +80,8 @@ class ActionSheetLauncher: NSObject, UITableViewDelegate, UITableViewDataSource 
         tableView.frame.origin.y = y
     }
     
+    
+    
     func show(){
         print("Show action sheet")
         
@@ -92,12 +96,10 @@ class ActionSheetLauncher: NSObject, UITableViewDelegate, UITableViewDataSource 
         self.tableViewHeight = height
         tableView.frame = CGRect(x: 0, y: window.frame.height, width: window.frame.width, height: 300)
         
-        
         UIView.animate(withDuration: 0.5) {
             self.blackView.alpha = 1
             self.showTableview(true)
         }
-        
         
     }
     
@@ -112,7 +114,22 @@ class ActionSheetLauncher: NSObject, UITableViewDelegate, UITableViewDataSource 
         
         tableView.register(ActionSheetCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
+
     
+    //MARK: - Selectors
+    
+    @objc func handleDismissal() {
+        UIView.animate(withDuration: 0.5) {
+            self.blackView.alpha = 0
+            self.tableView.frame.origin.y += 300
+        }
+    }
+    
+}
+
+//MARK: - UITableViewDelegate and UITableViewDelegate
+
+extension ActionSheetLauncher: UITableViewDelegate, UITableViewDataSource  {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! ActionSheetCell
         cell.option = viewModel.options[indexPath.row]
@@ -142,14 +159,4 @@ class ActionSheetLauncher: NSObject, UITableViewDelegate, UITableViewDataSource 
 
         delegate?.didSelect(option: option)
     }
-    
-    //MARK: - Selectors
-    
-    @objc func handleDismissal() {
-        UIView.animate(withDuration: 0.5) {
-            self.blackView.alpha = 0
-            self.tableView.frame.origin.y += 300
-        }
-    }
-    
 }

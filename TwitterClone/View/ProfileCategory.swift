@@ -13,15 +13,15 @@ protocol ProfileCategoryDelegate: class {
     func animateSelector(_ view: ProfileCategory, didSelect indexPath: IndexPath )
 }
 
-class ProfileCategory: UIView, UICollectionViewDelegate, UICollectionViewDataSource {
-    
+class ProfileCategory: UIView {
+    //MARK: - Properties
     
     private let underlineView: UIView = {
         let view = UIView()
         view.backgroundColor = .twitterBlue
         return view
     }()
- 
+    
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
@@ -35,20 +35,11 @@ class ProfileCategory: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     
     weak var delegate: ProfileCategoryDelegate?
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ProfileCategoryCell
-        
-        let option = ProfileCategoryOptions(rawValue: indexPath.row)
-        cell.option = option
-        
-        return cell
-    }
+
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return ProfileCategoryOptions.allCases.count
     }
-    
-    //MARK: - Properties
     
     lazy var collectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -85,6 +76,8 @@ class ProfileCategory: UIView, UICollectionViewDelegate, UICollectionViewDataSou
     }
 }
 
+//MARK: - UICollectionViewDelegateFlowLayout
+
 extension ProfileCategory: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: frame.width/3, height: frame.height)
@@ -92,5 +85,16 @@ extension ProfileCategory: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+}
+
+extension ProfileCategory: UICollectionViewDelegate, UICollectionViewDataSource {
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! ProfileCategoryCell
+        
+        let option = ProfileCategoryOptions(rawValue: indexPath.row)
+        cell.option = option
+        
+        return cell
     }
 }
