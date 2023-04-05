@@ -1,11 +1,11 @@
-# InsragramClone
+# TwitterClone
 
-### UIKit Instagram Clone app for iOS/iPadOS built with Firebase
+### UIKit Twitter Clone app for iOS/iPadOS built with Firebase
 
 - Sign up/ Log in
-- Post pictures with captions
-- Comment posts
-- Manage your posts
+- Post tweets
+- Comment tweets
+
 
 
 ## Download & Run
