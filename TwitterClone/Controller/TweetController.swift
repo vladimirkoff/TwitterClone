@@ -53,8 +53,6 @@ class TweetController: UICollectionViewController {
         }
     }
     
-    
-    
     //MARK: - Helpers
     
     func configure() {
@@ -91,17 +89,28 @@ extension TweetController: UICollectionViewDelegateFlowLayout {
     
     override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! TweetHeader
-        print("Here")
         header.tweet = self.tweet
         header.delegate = self
-        return header // creating header
+        return header 
     }
-    
 }
 
 //MARK: - TweetHeaderDelegate
 
 extension TweetController: TweetHeaderDelegate {
+    
+    func handleLikeTapped(_ cell: TweetHeader) {
+        guard let tweet = cell.tweet else { return }
+        TweetService.shared.likeTweet(tweet: tweet) { err, ref in
+            cell.tweet?.didLike.toggle()
+            let likes = tweet.didLike ? tweet.likes - 1 : tweet.likes + 1
+            cell.tweet?.likes = likes
+            
+            guard !tweet.didLike else { return } // only upload notif if the tweet is being liked
+            NotificationService.shared.uploadNotification(type: .like, tweet: tweet)
+        }
+    }
+    
     func showActionSheet() {
         if tweet.user.isCurrentuser {
             actionSheet = ActionSheetLauncher(user: tweet.user)
@@ -138,5 +147,4 @@ extension TweetController: ActionSheetDelegate {
             print("DELETE")
         }
     }
-    
 }

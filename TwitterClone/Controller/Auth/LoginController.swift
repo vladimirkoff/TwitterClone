@@ -64,11 +64,13 @@ class LoginController: UIViewController {
     
     private let emailField: UITextField = {
         let tf = Utilities().textField(withPlaceHolder: "Email")
+        tf.autocorrectionType = .no
         return tf
     }()
     
     private let passwordField: UITextField = {
         let tf = Utilities().textField(withPlaceHolder: "Password")
+        tf.autocorrectionType = .no
         tf.isSecureTextEntry = true
         return tf
     }()
@@ -131,10 +133,8 @@ class LoginController: UIViewController {
         navigationController?.pushViewController(controller, animated: true)
     }
     
-    
-    
     //MARK: - Lifecycle
-      
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -143,7 +143,7 @@ class LoginController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .twitterBlue
-        navigationController?.navigationBar.barStyle = .black 
+        navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.isHidden = true
         
         view.addSubview(logo)

@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension UIView {
+extension UIView {  // extension for UIView to set constraints easier
     
     func anchor(top: NSLayoutYAxisAnchor? = nil,
                 left: NSLayoutXAxisAnchor? = nil,

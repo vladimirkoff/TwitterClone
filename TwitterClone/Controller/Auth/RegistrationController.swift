@@ -44,7 +44,6 @@ class RegistrationController: UIViewController {
         view.addSubview(dividerView)
         dividerView.anchor(left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingLeft: 8, height: 0.75)
         
-        
         return view
     }()
     
@@ -114,22 +113,26 @@ class RegistrationController: UIViewController {
     
     private let emailField: UITextField = {
         let tf = Utilities().textField(withPlaceHolder: "Email")
+        tf.autocorrectionType = .no
         return tf
     }()
     
     private let passwordField: UITextField = {
         let tf = Utilities().textField(withPlaceHolder: "Password")
+        tf.autocorrectionType = .no
         tf.isSecureTextEntry = true
         return tf
     }()
     
     private let fullNameField: UITextField = {
         let tf = Utilities().textField(withPlaceHolder: "Email")
+        
         return tf
     }()
     
     private let UsernameField: UITextField = {
         let tf = Utilities().textField(withPlaceHolder: "Password")
+        tf.autocorrectionType = .no
         tf.isSecureTextEntry = true
         return tf
     }()
@@ -180,12 +183,11 @@ class RegistrationController: UIViewController {
         }
     }
     
-        //MARK: - Lifecycle
+    //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        
     }
     
     //MARK: - Helpers
@@ -194,7 +196,7 @@ class RegistrationController: UIViewController {
         
         imagePickerController.delegate = self
         imagePickerController.allowsEditing = true
-
+        
         view.backgroundColor = .twitterBlue
         navigationController?.navigationBar.barStyle = .black // changes tint color of time to white
         navigationController?.navigationBar.isHidden = true
@@ -207,15 +209,13 @@ class RegistrationController: UIViewController {
                                                    passwordView,
                                                    fullNameView,
                                                    userNamedView,
-                                                    signUpButton               ])
+                                                   signUpButton               ])
         stack.axis = .vertical
         stack.spacing = 20
         
         view.addSubview(stack)
         stack.anchor(top: addProfileImage.bottomAnchor, left: view.leftAnchor, right: view.rightAnchor, paddingLeft: 32, paddingRight: 32)
-    
         
-
     }
     
 }

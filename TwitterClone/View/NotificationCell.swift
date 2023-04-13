@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol NotificationCellDelegate {
+protocol NotificationCellDelegate: AnyObject {
     func goToProfile(_ cell: NotificationCell)
     func didTapFollow(_ cell: NotificationCell)
 }
@@ -15,7 +15,7 @@ protocol NotificationCellDelegate {
 class NotificationCell: UITableViewCell {
     //MARK: - Properties
     
-    var delegate: NotificationCellDelegate?
+   weak var delegate: NotificationCellDelegate?
     
     var notification: Notification? {
         didSet {
@@ -23,7 +23,7 @@ class NotificationCell: UITableViewCell {
         }
     }
     
-    lazy private var followButton: UIButton = {
+    private lazy var followButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Loading", for: .normal)
         button.setTitleColor(.twitterBlue, for: .normal)

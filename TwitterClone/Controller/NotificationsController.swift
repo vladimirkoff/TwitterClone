@@ -23,7 +23,6 @@ class NotificationsController: UITableViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        
         navigationController?.navigationBar.isHidden = false
         navigationController?.navigationBar.barStyle = .default
     }
@@ -108,7 +107,6 @@ extension NotificationsController: NotificationCellDelegate {
     }
     
     func goToProfile(_ cell: NotificationCell) {
-        print("HERE")
         guard let user = cell.notification?.user else { return }
         let controller = ProfileController(user: user)
         navigationController?.pushViewController(controller, animated: true)
@@ -121,8 +119,7 @@ extension NotificationsController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let notification = notifications[indexPath.row]
         guard let tweetID = notification.tweetID else { return }
-        
-        
+    
         TweetService.shared.fetchTweet(wtih: tweetID ) { tweet in
             let controller = TweetController(tweet: tweet)
             self.navigationController?.pushViewController(controller, animated: true)

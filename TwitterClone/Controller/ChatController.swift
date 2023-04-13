@@ -14,7 +14,6 @@ class ChatController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .blue
         configureUI()
     }
@@ -23,8 +22,6 @@ class ChatController: UIViewController {
     
     func configureUI() {
         view.backgroundColor = .white
-        
         navigationItem.title = "Messages"
-        
     }
 }

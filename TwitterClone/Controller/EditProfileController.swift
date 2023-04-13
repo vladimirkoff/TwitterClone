@@ -21,14 +21,11 @@ class EditProfileController: UITableViewController, EditProfileHeaderDelegate, U
     
     private var user: User
     private let imagePicker = UIImagePickerController()
-    private lazy var headerView = EditProfileHeader(user: user) // lazy because we use user property
+    private lazy var headerView = EditProfileHeader(user: user)
     
     private var imageChanged: Bool {
         return selectedImage != nil
     }
-    
-    
-    
     
     private var selectedImage: UIImage? {
         didSet {
@@ -54,7 +51,6 @@ class EditProfileController: UITableViewController, EditProfileHeaderDelegate, U
         super.viewDidLoad()
         imagePicker.delegate = self
         imagePicker.allowsEditing = true
-        tableView.register(EditProfileCell.self, forCellReuseIdentifier: reuseIdentifier)
         configureNavigationBar()
         configureTableView()
     }
@@ -101,7 +97,6 @@ class EditProfileController: UITableViewController, EditProfileHeaderDelegate, U
     
     //MARK: - Helpers
     
-    
     func handleChangeProfilePhoto() {
         present(imagePicker, animated: true, completion: nil)
     }
@@ -132,7 +127,9 @@ class EditProfileController: UITableViewController, EditProfileHeaderDelegate, U
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(didTapDone))
         navigationItem.rightBarButtonItem?.isEnabled = false
     }
+    
     func configureTableView() {
+        tableView.register(EditProfileCell.self, forCellReuseIdentifier: reuseIdentifier)
         tableView.tableHeaderView = headerView
         headerView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 180)
         tableView.tableFooterView = UIView()  // eliminates extra separating lines
@@ -178,7 +175,6 @@ extension EditProfileController: EditProfileCellDelegate {
             user.bio = cell.bioTextView.text
             
         }
-        
     }
 }
 

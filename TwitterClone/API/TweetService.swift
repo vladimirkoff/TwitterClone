@@ -19,7 +19,7 @@ struct TweetService {
         
         switch type {
         case .tweet:
-            REF_TWEETS.childByAutoId() // generates random id
+            REF_TWEETS.childByAutoId() 
                 .updateChildValues(values) { error, ref in
                     guard let tweetID = ref.key else { return }
                     if let error = error { print(error.localizedDescription) } else {

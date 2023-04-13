@@ -26,21 +26,10 @@ class FeedController: UICollectionViewController {
         }
     }
     
-    //MARK: - API
-    
-    func fetchUser(with username: String) {
-        UserService.shared.fetchUserWithUsername(with: username) { user in
-            print(user.userName)
-            let controller = ProfileController(user: user)
-            self.navigationController?.pushViewController(controller, animated: true)
-        }
-    }
-    
     //MARK: - Lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
         fetchTweets()
     }
@@ -48,9 +37,7 @@ class FeedController: UICollectionViewController {
     override func viewWillAppear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
     }
-    
-    
-    
+
     //MARK: - Selectors
     
     @objc func handleRefresh() {
@@ -89,6 +76,14 @@ class FeedController: UICollectionViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImageView)
     }
     //MARK: - API
+    
+    func fetchUser(with username: String) {
+        UserService.shared.fetchUserWithUsername(with: username) { user in
+            print(user.userName)
+            let controller = ProfileController(user: user)
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
     
     func fetchTweets() {
         collectionView.refreshControl?.beginRefreshing()

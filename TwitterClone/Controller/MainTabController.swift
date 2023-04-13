@@ -9,22 +9,19 @@ import UIKit
 import FirebaseAuth
 
 class MainTabController: UITabBarController {
-    
-    
-    
+
     //MARK: - Properties
     
-    var user: User? {
+   private var user: User? {
         didSet {
             guard let nav = viewControllers?[0] as? UINavigationController else { return }
-            
             guard let feed = nav.viewControllers.first as? FeedController else { return }
             
             feed.user = user
         }
     }
     
-    let actionButton: UIButton = {
+  private let actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .white
         button.backgroundColor = .twitterBlue
@@ -40,7 +37,6 @@ class MainTabController: UITabBarController {
         view.backgroundColor = .twitterBlue
         authenticateUser()
         tabBar.backgroundColor = .white
-        
     }
     
     //MARK: - Helpers
@@ -67,7 +63,7 @@ class MainTabController: UITabBarController {
         let chat = ChatController()
         let nav4 = templateNavigationController(image: UIImage(named: "ic_mail_outline_white_2x-1"), rootVC: chat)
         
-        viewControllers = [nav1, nav2, nav3, nav4]  // we are setting the assosiated tab bat items
+        viewControllers = [nav1, nav2, nav3, nav4]  
         
     }
     

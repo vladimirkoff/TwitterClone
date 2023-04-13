@@ -17,9 +17,7 @@ class ProfileController: UICollectionViewController {
     private var user: User
     
     private var selectedCategory: ProfileCategoryOptions = .tweets {
-        didSet {
-            collectionView.reloadData()
-        }
+        didSet { collectionView.reloadData() }
     }
     
     private var tweets = [Tweet]()
@@ -63,28 +61,17 @@ class ProfileController: UICollectionViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    
     //MARK: - Helpers
     
     func configureUI() {
-        
         fetchUserStats()
-        
         view.backgroundColor = .white
-        
         collectionView.contentInsetAdjustmentBehavior = .never // prolonges the header up to the top end of the screen
-        
         collectionView.register(TweetCell.self, forCellWithReuseIdentifier: reuseIdentifier)
-        
         collectionView.register(ProfileHeader.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: headerIdentifier)
-        
         guard let tabHeight = tabBarController?.tabBar.frame.height else { return }
         collectionView.contentInset.bottom = tabHeight
     }
-    
-
-    
 }
 
 //MARK: - UICollectionViewDataSource/Delegate
@@ -102,11 +89,13 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return currentDataSource.count
     }
+    
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, for: indexPath) as! TweetCell
         cell.tweet = currentDataSource[indexPath.row]
         return cell
     }
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let viewModel = TweetViewModel(tweet: currentDataSource[indexPath.row])
         var height = viewModel.size(forWidth: view.frame.width).height + 72
@@ -121,7 +110,7 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
         let header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: headerIdentifier, for: indexPath) as! ProfileHeader
         header.user = self.user
         header.delegate = self
-        return header // creating header
+        return header
     }
     
     //MARK: - API
@@ -196,7 +185,7 @@ extension ProfileController: DismissprofileDelegate {
     
     
     func dismissProfile() {
-        navigationController?.popViewController(animated: true) // pops the vc from the stack of view controllers, so it just deletes the top view controller from an array
+        navigationController?.popViewController(animated: true)
     }
     
     func fetchUserStats() {

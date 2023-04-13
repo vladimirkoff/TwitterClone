@@ -20,7 +20,7 @@ struct AuthParameters {
 
 struct AuthService {
     
-    static let shared = AuthService()  // singelton
+    static let shared = AuthService() 
     
     func registeruser(parameters: AuthParameters, completion: @escaping(Error?, DatabaseReference) -> Void ) {
         
@@ -55,7 +55,6 @@ struct AuthService {
                                 print(error.localizedDescription)
                                 return
                             }
-                            print("Succesfully updated user information")
                         }
                     }
                 }

@@ -22,7 +22,7 @@ class EditProfileCell: UITableViewCell {
         }
     }
     
-    let titleLabel: UILabel = {
+  private let titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         return label

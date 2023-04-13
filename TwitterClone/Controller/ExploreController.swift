@@ -57,7 +57,6 @@ class ExploreController: UITableViewController {
     func configureSearchController() {
         
         searchController.searchResultsUpdater = self
-        
         searchController.obscuresBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.searchBar.placeholder = "Search for a user"

@@ -66,7 +66,6 @@ class UploadTweetController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         configureUI()
         configureNavigationBar()
         handleMentionTap()
