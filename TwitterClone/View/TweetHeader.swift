@@ -9,7 +9,9 @@ import UIKit
 
 protocol TweetHeaderDelegate: AnyObject {
     func showActionSheet()
+    func handleReplyTapped(_ cell: TweetHeader)
     func handleLikeTapped(_ cell: TweetHeader)
+    func handleProfileImageTap( header:  TweetHeader)
 }
 
 class TweetHeader: UICollectionReusableView {
@@ -172,7 +174,7 @@ class TweetHeader: UICollectionReusableView {
     //MARK: - Selectors
     
     @objc func goToUserProfile() {
-        print("Profile image pressed")
+        delegate?.handleProfileImageTap(header: self)
     }
     
     @objc func showActionSheet() {
@@ -180,7 +182,7 @@ class TweetHeader: UICollectionReusableView {
     }
     
     @objc func commentTapped() {
-        print("commentTapped")
+        delegate?.handleReplyTapped(self)
     }
     
     @objc func likeTapped() {

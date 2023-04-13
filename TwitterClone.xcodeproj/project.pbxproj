@@ -34,7 +34,6 @@
 		8597C19B29AF644E00C1A966 /* FeedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C19A29AF644E00C1A966 /* FeedController.swift */; };
 		8597C19D29AF648100C1A966 /* ExploreController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C19C29AF648100C1A966 /* ExploreController.swift */; };
 		8597C19F29AF648A00C1A966 /* NotificationsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C19E29AF648A00C1A966 /* NotificationsController.swift */; };
-		8597C1A129AF649900C1A966 /* ChatController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C1A029AF649900C1A966 /* ChatController.swift */; };
 		8597C1A529AF6D4000C1A966 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C1A429AF6D4000C1A966 /* Extensions.swift */; };
 		8597C1A829AF735500C1A966 /* LoginController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C1A729AF735500C1A966 /* LoginController.swift */; };
 		8597C1AA29AF73A800C1A966 /* RegistrationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8597C1A929AF73A800C1A966 /* RegistrationController.swift */; };
@@ -87,7 +86,6 @@
 		8597C19A29AF644E00C1A966 /* FeedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedController.swift; sourceTree = "<group>"; };
 		8597C19C29AF648100C1A966 /* ExploreController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExploreController.swift; sourceTree = "<group>"; };
 		8597C19E29AF648A00C1A966 /* NotificationsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsController.swift; sourceTree = "<group>"; };
-		8597C1A029AF649900C1A966 /* ChatController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatController.swift; sourceTree = "<group>"; };
 		8597C1A429AF6D4000C1A966 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		8597C1A729AF735500C1A966 /* LoginController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginController.swift; sourceTree = "<group>"; };
 		8597C1A929AF73A800C1A966 /* RegistrationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationController.swift; sourceTree = "<group>"; };
@@ -236,7 +234,6 @@
 				8597C19A29AF644E00C1A966 /* FeedController.swift */,
 				8597C19C29AF648100C1A966 /* ExploreController.swift */,
 				8597C19E29AF648A00C1A966 /* NotificationsController.swift */,
-				8597C1A029AF649900C1A966 /* ChatController.swift */,
 				85CE239229B0D881008B7725 /* UploadTweetController.swift */,
 				8527D38029B1EB3B007E16B1 /* ProfileController.swift */,
 				85769A9029B5E7C0008E4F70 /* TweetController.swift */,
@@ -394,7 +391,6 @@
 				8597C17E29AF61F500C1A966 /* AppDelegate.swift in Sources */,
 				8597C1AC29AFA08400C1A966 /* Utilities.swift in Sources */,
 				85BFB6BB29B37BDF0060797E /* UserCell.swift in Sources */,
-				8597C1A129AF649900C1A966 /* ChatController.swift in Sources */,
 				851E00A129C0748E005CA52A /* EditProfileController.swift in Sources */,
 				852CF57C29B73D1300BDB4CA /* ActionSheetCell.swift in Sources */,
 				8597C1A529AF6D4000C1A966 /* Extensions.swift in Sources */,

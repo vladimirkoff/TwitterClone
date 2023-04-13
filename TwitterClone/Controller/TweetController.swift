@@ -98,6 +98,19 @@ extension TweetController: UICollectionViewDelegateFlowLayout {
 //MARK: - TweetHeaderDelegate
 
 extension TweetController: TweetHeaderDelegate {
+    func handleProfileImageTap(header: TweetHeader) {
+        guard let user = header.tweet?.user else { return }
+        navigationController?.pushViewController(ProfileController(user: user), animated: true)
+    }
+    
+    func handleReplyTapped(_ cell: TweetHeader) {
+        guard let tweet = cell.tweet else { return }
+        let controller = UploadTweetController(user: tweet.user, config: .reply(tweet))
+        let nav = UINavigationController(rootViewController: controller)
+        nav.modalPresentationStyle = .fullScreen
+        present(nav, animated: true, completion: nil)
+    }
+    
     
     func handleLikeTapped(_ cell: TweetHeader) {
         guard let tweet = cell.tweet else { return }

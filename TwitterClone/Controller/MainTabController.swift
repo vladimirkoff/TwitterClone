@@ -9,19 +9,24 @@ import UIKit
 import FirebaseAuth
 
 class MainTabController: UITabBarController {
-
+    
     //MARK: - Properties
     
-   private var user: User? {
+    private var user: User? {
         didSet {
             guard let nav = viewControllers?[0] as? UINavigationController else { return }
             guard let feed = nav.viewControllers.first as? FeedController else { return }
-            
             feed.user = user
+            
+            let chat = ProfileController(user: user!)
+            let nav4 = templateNavigationController(image: UIImage(named: "profile_unselected"), rootVC: chat)
+            nav4.navigationController?.navigationBar.isHidden = true
+            
+            viewControllers?.append(nav4)
         }
     }
     
-  private let actionButton: UIButton = {
+    private let actionButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = .white
         button.backgroundColor = .twitterBlue
@@ -50,6 +55,7 @@ class MainTabController: UITabBarController {
     
     func configureViewControllers() {
         
+        
         let feed = FeedController(collectionViewLayout: UICollectionViewFlowLayout())
         let nav1 = templateNavigationController(image: UIImage(named: "home_unselected"), rootVC: feed)
         
@@ -59,11 +65,10 @@ class MainTabController: UITabBarController {
         let notifications = NotificationsController()
         let nav3 = templateNavigationController(image: UIImage(named: "like_unselected"), rootVC: notifications)
         
+
         
-        let chat = ChatController()
-        let nav4 = templateNavigationController(image: UIImage(named: "ic_mail_outline_white_2x-1"), rootVC: chat)
+        viewControllers = [nav1, nav2, nav3]
         
-        viewControllers = [nav1, nav2, nav3, nav4]  
         
     }
     
@@ -102,9 +107,9 @@ class MainTabController: UITabBarController {
             }
             
         } else {
+            fetchUser()
             configureViewControllers()
             configureUI()
-            fetchUser()
         }
     }
     
@@ -112,7 +117,7 @@ class MainTabController: UITabBarController {
         do {
             try Auth.auth().signOut()
         } catch {
-            print("error")
+            print("Error logging out - \(error.localizedDescription)")
         }
     }
 }

@@ -47,7 +47,6 @@ class ProfileController: UICollectionViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(true)
-        
         navigationController?.navigationBar.barStyle = .black
         navigationController?.navigationBar.isHidden = true
     }
@@ -146,6 +145,8 @@ extension ProfileController: UICollectionViewDelegateFlowLayout {
 //MARK: - DismissprofileDelegate
 
 extension ProfileController: DismissprofileDelegate {
+
+    
     
     func didSelectCategory(category: ProfileCategoryOptions) {
         self.selectedCategory = category

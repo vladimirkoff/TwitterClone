@@ -74,6 +74,7 @@ class FeedController: UICollectionViewController {
         profileImageView.sd_setImage(with: url, completed: nil)
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: profileImageView)
+        
     }
     //MARK: - API
     
